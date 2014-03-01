@@ -1,0 +1,124 @@
+/*
+Project: Bearded Nemesis
+Version: Prototype - 1.0
+Author, front-end: Christophe Zlobinski-Furmaniak
+Author, design: Christophe Zlobinski-Furmaniak
+Last edited: 02/24/2014
+
+Description: 
+**1. Html5doctor.com Reset Stylesheet + HTML5 Normalization 
+**2. Less Rules
+**3. Project Stylesheet 
+*/
+
+/* **1. Html5doctor.com Reset Stylesheet + HTML5 Normalization  */
+@import "reset.css";
+
+/* -------------------------------------
+//	LESS PreCSSProcessor
+////////////////////////////////////////
+------------------------------------- */
+@import "elements"; /* LESS Elements */
+@import "grid"; /* Grid rules */
+@import "main_colors"; /* Main colors and neutrals */
+@import "fonts"; /* Fonts and typography style */
+
+/* -------------------------------------
+//	CSS
+////////////////////////////////////////
+------------------------------------- */
+/* Typography 
+------------------------------------- */
+
+/* -------------------------------------
+	Base
+------------------------------------- */
+html { 
+	position: relative;
+	font-size: 62.5%; /* As browser default size is 16px, we scale down to 10px to simplify relatives sizes use (10px = 1rem, 12px = 1.2rem, 14px = 1.4rem, etc) */
+	overflow-x: hidden;
+}
+
+body {
+	background-color:#131313;
+	font-family:"open sans", sans-serif;
+	padding-bottom:100px;
+}
+
+.wrapper {
+	position: relative;
+	margin: 0 auto;
+	padding: @vam @gm;
+	width: @wrapper_px;
+}
+
+/* Supprime les cadres focus de Firefox */
+a { outline: none; border: none; text-decoration: none; .tr_out;
+    &:hover { 
+        .tr_in;
+    }
+}
+:focus{-moz-outline-style: none;}
+
+img {
+	margin: 0;
+}
+
+/* -------------------------------------
+	Same elements
+------------------------------------- */
+.none { // For development purpose
+	display: none;
+}
+
+nav {
+	position: fixed;
+	width: 100%;
+	height: 60px;
+	background-color: black;
+	z-index: 999;
+}
+
+header {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: grey;
+	z-index: 998;
+}
+
+/* -------------------------------------
+	Canvas - General styles
+------------------------------------- */
+section{
+	position: absolute;
+	top: 800px;
+}
+
+.canvas-technique {
+  position: relative;
+  height: 800px;
+  width: 120%;
+  z-index: 1;
+  .perspective(150px);
+
+
+	canvas {
+	  position: relative;
+	  width: 100%;
+	  height: 100%;
+	  .box-model;
+	
+		&:nth-child(odd){
+			left: 11%;
+			-webkit-transform: rotateY(2deg);
+			transform: rotateY(2deg);
+		}
+		
+		&:nth-child(even){
+			left: -20%;
+			-webkit-transform: rotateY(-2deg);
+			transform: rotateY(-2deg);
+		}
+	}
+}

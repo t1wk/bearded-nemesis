@@ -1,0 +1,71 @@
+// Grid
+//-----------------------------------------
+// @gm = Grid Margin
+// @gc = Grid Column
+// @gg = Grid Gutter
+//----------------------------------------
+
+// Pixels references
+//----------------------------------------
+@gc_px: 28px;
+@gg_px: 10px;
+@gm_px: (@gc * 2) + (@gg * 2);
+@wrapper_px: (@gc * 18) + (@gg * 17);
+//----------------------------------------
+
+//----------------------------------------
+// Baseline Grid - Horizontal alignement 
+//----------------------------------------
+@gm: @gm_px;
+@gc: @gc_px;
+@gg: @gg_px;
+
+// Baseline Grid - Vertical alignement 
+//----------------------------------------
+// @va_ = vertical alignement
+// Because of the square grid, @va_ = @g_
+//----------------------------------------
+@vam: @gm_px;
+@vac: 18px;
+@vag: 0;
+
+// Basic 18 Odd Grid layout
+//-----------------------------------------
+@18g-1: (@gc * 18) + (@gg * 17);
+@18g-2: (@gc * 9) + (@gg * 8);
+@18g-3: (@gc * 6) + (@gg * 5);
+@18g-6: (@gc * 3) + (@gg * 2);
+@18g-9: (@gc * 2) + (@gg * 1);
+//----------------------------------------
+
+
+// Typographic Grid
+//----------------------------------------
+.h1 {
+    font-size: 2.4rem;
+	line-height: 3rem;
+}
+
+.h2 {
+    font-size: 5.6rem;
+}
+
+.h3 {
+    font-size: 2.4rem;
+    line-height: 3rem;
+}
+
+.h4 {
+    font-size: 1.45rem;
+    line-height: 2.2rem;
+}
+
+.h5 {
+    font-size: 1.2rem;
+    line-height: 1.8rem;
+}
+
+.p {
+    font-size: 2.1rem;
+    line-height: 2.9rem;
+}

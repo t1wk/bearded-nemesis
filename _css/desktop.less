@@ -1,0 +1,975 @@
+/* -------------------------------------
+//	Desktop version
+////////////////////////////////////////
+------------------------------------- */
+
+// For readibility, 65/66 characters rule
+h1, h2, section p, article p {
+	width: 70ex;
+	min-width: 33ex;
+	max-width: 75ex;
+}
+
+/* -------------------------------------
+	Header
+------------------------------------- */
+/* Useful variables */
+@hheader: (@vac * 2) ;
+
+header {
+	top: 0;
+	position: fixed;
+	width: 100%;
+	padding: @gg;
+	height: @hheader;
+	background: @dark;
+	z-index: 999;
+	
+	h1{
+		text-transform: uppercase;
+		color: @turquoise;
+		height: @hheader;
+		line-height: @hheader;
+		
+		strong{
+			text-transform: lowercase;
+			color: @clouds;
+			
+			&:before, &:after{
+				content: "/";
+			}
+		}
+		
+		span {
+			color: @grey;
+		}
+	}
+} // Close header
+
+/* -------------------------------------
+	Navigation
+------------------------------------- */
+nav#primary{
+	position: fixed;
+	top: 80px;
+	left: 20px;
+	width: (@gc * 5) + (@gg * 6);
+	.box-model;
+	z-index: 5;
+	
+	ul {
+		.op(.5);
+		
+		&:hover{
+			.op(1);
+			.tr_in;
+		}
+		
+		li{
+			display: block;
+			width: 100%;
+			margin-bottom: 2px;
+			font-size: 1.65rem;
+			.br(2px);
+			
+			&.active {
+				background: @dark;
+				color: @clouds;
+			
+				a{
+					&:hover{
+					
+					}
+					
+					&:visited{
+						color: @clouds;
+					}
+				}
+			}
+			
+			h4{
+				font-size: 1.65rem;
+				.br(2px);
+			}
+			
+			&#menu-design,  &#menu-framework{
+				position: relative;
+				height: 42px;
+				overflow: hidden;
+				cursor: pointer;
+				.tr_out;				
+				
+				h4{
+					position: relative;
+					padding: @gg;
+					background: fade(@clouds, 90%);
+					.cbr(2px, 2px, 0, 0);			
+				}
+				
+				&:after{
+					content: "";
+					position: absolute;
+					width: 15px;
+					height: 9px;
+					top: @vac;
+					right: @gg;
+					background: url('../_svg/arrow-menu.svg') 0 0 no-repeat;
+				}
+				
+				&.open{
+					.tr_in;
+					&:after{
+						.rotation(180deg);
+					}
+				}
+			}
+			
+			&#menu-design {
+				h4{
+					color: @a_blue;
+				}
+				
+				&.open{
+					height: 182px;
+				}
+			}
+			
+			&#menu-framework {
+				margin-bottom: @gg;
+				h4{
+					color: @a_purple;
+				}
+				
+				&.open{
+					height: 142px;
+				}
+			}
+			
+			&#menu-forwhat{
+				border-top: 1px solid fade(@b_warm, 60%);
+			}
+			
+			&:not(ol) a{
+				display: block;
+				padding: @gg;
+				color: @grey_200;
+				.br(2px);
+				
+				&.active{
+					color: @clouds;
+					
+						&:hover{
+							background: none;
+							color: @clouds;
+						}
+						
+						&:visited{
+							color: @clouds!important;
+						}
+				}
+				
+				&:hover{
+					color: @clouds;
+					//color: fade(@clouds, 90%);
+					background: fade(@b_warm, 75%);
+					font-size: 1.65rem;
+				}
+				
+				&:visited{
+					color: @grey_100;
+
+					&:hover{
+						color: @clouds;
+					}
+				}
+			}
+			
+			ol{
+				margin: 0;
+				padding: @gg;
+				background: fade(@clouds, 60%);
+				
+				li{
+					display: block;
+					margin: 0;
+					padding: 0 !important;
+					font-size: 1.45rem;
+					
+					a{
+						padding: 0;
+						background: none;
+						
+						&:hover{
+							color: @grey_200;
+							background: none;
+							.witsb;
+						}
+						
+						&:visited{
+							color: @grey_100;
+							.op(.85);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/* -------------------------------------
+	Links
+------------------------------------- */	
+section {
+	a{
+		position: relative;
+		display: inline-block;
+		padding: 0.5rem @gg;
+		border: 1px dashed fade(@w90, 30%);
+		color: @w90;
+		.witsbi;
+		
+		/* Under-tape
+		------------------------------------- */	
+		&:before, &:after{
+			content: "";
+			position: absolute;
+			top: 0;
+			left:0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+		}
+		
+		&:before{
+			border: 1px solid fade(@w_warm, 75%);
+			.rotation(-3deg);
+		}
+		
+		&:after{
+			border: 1px solid fade(@w_warm, 45%);
+			.rotation(3deg);
+		}
+		
+		/* State colors
+		------------------------------------- */	
+		&:visited{
+			color: @w90;
+		}
+		
+		&:hover{
+			background: fade(@grey_200, 50%);
+			
+			&:before{
+				border: 1px solid fade(@b_warm, 75%);
+				background: fade(@grey_200, 25%);
+			}
+			
+			&:after{
+				border: 1px solid fade(@b_warm, 45%);
+				background: fade(@grey_200, 15%);
+			}
+		}
+		
+		/* Social Medias
+		------------------------------------- */	
+		&#github {
+			color: @grey_100;
+			background-color: fade(#B7BEC9, 75%);
+			
+			&:before{
+				border: 1px solid fade(@b_warm, 75%);
+			}
+			
+			&:after{
+				border: 1px solid fade(@b_warm, 45%);
+			}
+			
+			&:hover{
+				color: @w90;
+				background-color: fade(@grey_100, 90%);
+				border: 1px solid fade(@b_warm, 90%);
+			
+				&:before{
+					border: 1px solid fade(@w_warm, 75%);
+				}
+				
+				&:after{
+					border: 1px solid fade(@w_warm, 45%);
+				}
+			}
+		}
+		
+		&#fb {
+			background-color: fade(#3B5998, 75%);
+			
+			&:hover{
+				background-color: fade(#3B5998, 90%);
+				border: 1px solid fade(@b_warm, 90%);
+			}
+		}
+		
+		&#twitter{
+			background-color: fade(#0084B4, 75%);
+			
+			&:hover{
+				background-color: fade(#0084B4, 90%);
+				border: 1px solid fade(@b_warm, 90%);
+			}
+		}
+		
+		&#gp{
+			background-color: fade(#D94938, 75%);
+			
+			&:hover{
+				background-color: fade(#D94938, 75%);
+				border: 1px solid fade(@b_warm, 90%);
+			}
+		}
+	}
+}
+
+/* -------------------------------------
+	Section
+------------------------------------- */
+section:before{
+	overflow: hidden;
+}
+
+section {
+	position: relative;
+	
+	.intro{
+		strong{
+			display: inline-block;
+			padding: 0.5rem @gg;
+			background-color: fade(@grey_200, 70%);
+			color: @w_cold;
+		}
+	}
+	
+	/* Design System
+	------------------------------------- */
+	&#design{
+		margin-bottom: @vac * 5;
+		
+		&:before{
+			width: 150%;
+			height: 108%;
+			top: 0;
+			left: -25%;
+			background-position: 75% -1%;
+			.rotation(-5deg);
+			z-index: -1;
+		}
+		
+		&:after{
+			width: 100%;
+			height: 108%;
+			top: 0;
+			left: 0;			
+			z-index: -1;
+			border: 1px solid fade(@b_warm, 30%);
+		}
+		
+		article {
+			a{
+				&:hover{
+					color: @a_orange;
+				}
+			}
+		}
+	}
+	
+	/* Framework
+	------------------------------------- */
+	&#framework{
+		
+		&:before{
+			width: 150%;
+			height: 110%;
+			top: 2%;
+			left: -25%;			
+			background-position: 25% -4%;
+			border: 1px solid fade(@b_warm, 30%);
+			.rotation(5deg);
+			z-index: -1;
+		}
+		
+		&:after{
+			width: 100%;
+			height: 102%;
+			top: 2%;
+			left: -14%;			
+			z-index: -1;
+			.rotation(23deg);
+			border: 2px solid fade(@w_warm, 30%);
+		}
+		
+		article {		
+			&:first-child{
+				margin-top: @vac * 6;
+				&:before{
+					top: 18%;
+				}
+			}
+			
+			&:last-child{
+				margin-bottom: @vac * 6;
+			}
+			
+			a{
+				&:hover{
+					color: @a_lime;
+				}
+			}
+		}
+	}
+	
+	/* For what kind of project?
+	------------------------------------- */
+	&#for-what{	
+		&:before{
+			width: 150%;
+			height: 150%;
+			top: 0;
+			left: -25%;			
+			border: 1px solid fade(@b_warm, 30%);
+			background-position: 75% -15%;
+			.rotation(-5deg);
+			z-index: -1;
+		}
+	
+		&:after{
+			width: @vac * 50;
+			height: @vac * 50;
+			top: -25%;
+			left: 25%;			
+			border: 3px solid fade(@w_warm, 50%);
+			.cbr(0%, 50%, 50%, 50%);
+			.rotation(-19deg);
+			z-index: -1;
+		}
+	}
+	
+	/* is RINE trendy?
+	------------------------------------- */
+	&#trendy {	
+		&:before{
+			width: 150%;
+			height: 110%;
+			top: 2%;
+			left: -25%;			
+			background-position: 25% -10%;
+			border: 1px solid fade(@b_warm, 30%);
+			.rotation(5deg);
+			z-index: -1;
+		}
+		
+		&:after{
+			width: 150%;
+			height: 105%;
+			top: 2%;
+			left: -25%;			
+			border: 1px solid fade(@w_warm, 30%);
+			.rotation(-5deg);
+			z-index: -2;
+		}
+	}
+	
+	/* What's next?
+	------------------------------------- */
+	&#whatsnext{
+		
+		&:before{
+			content: "";
+			position: absolute;
+			width: 150%;
+			height: 110%;
+			top: 0;
+			left: -25%;			
+			background-position: 75% -3%;
+			border: 1px solid fade(@b_warm, 30%);
+			.rotation(-5deg);
+			z-index: -1;
+		}
+		
+		&:after{
+			content: "";
+			position: absolute;
+			border: 1px solid fade(@b_warm, 30%);
+			z-index: -1;
+		}
+	}
+	
+	/* To sum up
+	------------------------------------- */
+	&#sum-up{	
+		&:before{
+			width: 150%;
+			height: 110%;
+			top: 0;
+			left: -25%;			
+			.rotation(5deg);
+			border: 1px solid fade(@b_warm, 30%);
+			z-index: -1;
+		}
+		
+		&:after{
+			width: 150%;
+			height: 108%;
+			top: 0;
+			left: -25%;			
+			z-index: -1;
+			border: 1px solid fade(@w_cold, 30%);
+			.rotation(-3deg);
+		}
+	}	
+
+/* -------------------------------------
+	Article
+------------------------------------- */	
+	counter-reset: article;
+
+	article {
+		position: relative;
+		counter-increment: article;
+		
+		/* Counter
+		------------------------------------- */	
+		&:before, &:after{
+			position: absolute;
+			font-size: 9rem;
+			line-height: 1;
+			z-index: 2;
+			.witindb;
+		}
+		
+		/* Subtitle
+		------------------------------------- */	
+		h3{
+			position: relative;
+			display: inline-block;
+			margin-bottom: @vac * 3;
+			padding: 1rem;
+			padding: 0.5rem @gg;
+			background-color: fade(@grey_200, 70%);
+			color: @w_cold;
+			width: auto;
+			min-width: 50%;
+			max-width: 100%;
+			
+			/* Pre-tape background
+			------------------------------------- */	
+			&:before{
+				content: "";
+				position: absolute;
+				width: 300%;
+				height: 100%;
+				top: 0;			
+				z-index: 1;
+			}
+			
+			/* Under-tape
+			------------------------------------- */	
+			&:after{
+				content: "";
+				position: absolute;
+				width: 150%;
+				height: 150%;
+				border: 1px solid fade(@w_warm, 75%);
+				z-index: -1;
+			}
+		}
+		
+		/* Rules for Odd
+		------------------------------------- */	
+		&:nth-child(odd){
+		
+			/* Counter
+			------------------------------------- */
+			&:before{
+				content: counter(article);
+				left: 20%;
+			}
+			
+			&:not(:first-child):before{
+				top: 5.5%;
+			}
+			
+			&:first-child:before{
+				top: 26%;
+			}
+			
+			/* Pre-tape
+			------------------------------------- */
+			h3{
+				&:before{
+					left: -300%;
+					background-color: fade(@grey_200, 70%);					
+				}
+				
+				&:after{
+					.rotation(-5deg);
+					left: -26.5%;
+					top: -2.5%;
+				}
+			}
+		}
+		
+		/* Rules for Even
+		------------------------------------- */
+		&:nth-child(even){
+			
+			/* Counter
+			------------------------------------- */
+			&:after{
+				content: counter(article);
+				right: 20%;
+				top: 4.5%;
+			}
+			
+			/* Pre-tape
+			------------------------------------- */
+			h3{
+				&:before{
+					right: -300%;	
+					background-color: fade(@grey_200, 70%);	
+				}
+				
+				&:after{
+					.rotation(5deg);
+					left: -26.5%;
+					top: -2.5%;
+				}
+			}
+		}
+		
+		/* Images
+		------------------------------------- */
+		figure:not(#showcase) {
+			width: 900px;
+			
+			figcaption {
+				.p;
+				.witmi;
+			}		
+		}
+		
+		figure {
+			margin: -(@vac * 2) auto (@vac *3);
+		}
+		
+		/* Syntax Highlighter
+		------------------------------------- */
+		pre, code{
+			    font-size: 1.75rem;
+				line-height: 2.4rem;
+		
+			&.plain, &.comments, &.string {
+				font-size: 1.65rem;
+			}
+		}
+		
+		.syntaxhighlighter {
+			width: 55%;
+		}
+	}
+}
+
+/* Footer
+	------------------------------------- */
+footer{
+	display: block;
+	width: 100%;
+	height: @vac * 9;
+	background: fade(@b_warm, 75%);
+		
+	p {
+		display: block;
+		width: @wrapper_px;
+		margin: 0 auto;
+		padding-top: 100px;
+		color: @clouds;
+		font-size: 1.65rem;
+	
+		a{
+			padding: 0.5em @gg;
+			color: @clouds;
+			.op(.85);
+								
+			&:hover{
+				background-color: @b_warm;
+				.op(1);
+			}
+			
+			&:visited{
+				color: @clouds;
+			}
+			
+			&.name {
+				font-size: 1.75rem;
+				color: @grey_001;
+				.witsb;
+				
+				&:hover{
+					background-color: #076A9B ;
+					color: @clouds;
+				}
+			}
+			
+			&.website{
+				.witmi;
+				
+				&:hover{
+					color: #CB4B16;
+				}						
+			}
+			
+			&.twitter{
+				//color: #0084B4;
+			
+				&:hover, &:visited:hover{
+					color: @clouds;
+					background-color: #0084B4;
+				}
+			}
+		}
+	}
+}
+
+/* -------------------------------------
+	Showcase
+------------------------------------- */
+#showcase {
+	//position: relative;
+	z-index: 5;
+	
+	&:before {
+		content:"";
+		position: absolute;
+		width:10%;
+		height: 100%;
+		top: -3%;
+		right: 0;
+		background: fade(@b_warm, 90%);
+		z-index: 1;
+		.skewx(45deg);
+	}
+
+	.showcase-arrow-previous, .showcase-arrow-next {
+		background: url('../_svg/arrow.svg') 0 0 no-repeat;
+		width: 47px;
+		height: 70px;
+		top: 42%;
+	}
+	
+	.showcase-arrow-next {
+		.rotation(180deg);
+	}
+}
+
+#arrow{
+	&:hover{
+		fill: @a_orange;
+	}
+}
+
+
+/* -------------------------------------
+	Media Queries
+------------------------------------- */
+	
+@media screen and (max-width : 1280px) {
+	
+	html{
+	}
+	
+	// ------------------------------------------------------
+	// Counter
+	// ------------------------------------------------------
+	section{
+		article{
+			&:nth-child(odd){
+				&:before{
+					left: 10%;
+				}
+			}
+		}
+	}
+} 
+
+@media screen and (min-width : 950px) and (max-width : 1024px){
+
+// Responsive Grid
+//----------------------------------------
+// @wrapper: (innerWidth*100) / @wrapper_px
+// @rgc: percentage(44 / 1070); /* 44px // 0.0411215rem // 4.11215% */
+// @rgg: percentage(10 / 1070); /* 10px // 0.0094579rem // 0.934579% */
+// @rgm: percentage(108 / 1070); /* 108px // 1.0093458rem // 10.093458% */
+
+@rgc: percentage(@gc / 1024);
+@rgg: percentage(@gg / 1024);
+@rgm: (@rgc * 2) + (@rgg * 2);
+@wrapper_px: (@rgc * 19) + (@rgg * 19);
+	
+	html{
+	}
+	
+	body{
+
+	}
+	
+	// ------------------------------------------------------
+	// Overall
+	// ------------------------------------------------------
+	.wrapper {
+		padding-left: @rgc + @rgg;
+		//width: 1024px !important; // $(window).innerWidth();
+		.box-model;
+	}
+	
+	// ------------------------------------------------------
+	// Navigation
+	// ------------------------------------------------------
+	nav#primary {
+		left: -5px;
+		width: (@gc * 5) + (@gg * 3);
+		.op(.25);
+
+		&:hover{
+			.op(1);
+		}
+	}
+	
+	// ------------------------------------------------------
+	// Section
+	// ------------------------------------------------------
+	section{
+		&#top {
+			.intro {
+				strong{
+					display: inline;
+				}
+			}
+		}
+		
+		&#design{
+			&:before{
+				background-position: 95% -1%;
+			}
+		}
+		
+		&#framework{
+			&:before{
+				background-position: 10% -4%;
+			}
+		}
+	
+		article{
+			&:nth-child(even){
+				&:before{
+					right: 10%;
+				}
+			}
+			
+			.syntaxhighlighter{
+				width: 75%;
+			}
+		}
+	}
+	
+	#showcase {
+		.showcase-arrow-previous, .showcase-arrow-next {
+			top: 40%;
+		}
+	}
+}
+
+@media screen and (max-width : 949px) {
+	
+	.wrapper {
+		//padding: @vac;
+	}
+	
+	// ------------------------------------------------------
+	// Navigation
+	// ------------------------------------------------------
+	nav#primary {
+		display: none;		
+	}
+	
+	// ------------------------------------------------------
+	// Section
+	// ------------------------------------------------------
+	section{
+		
+		&#design{
+			&:before{
+				left: 5%;
+			}
+		}
+		
+		&#framework{
+			&:before{
+				background-position: 10% -4%;
+			}
+		}
+	
+		article{
+			
+			&:before{
+				font-size: 6rem;
+			}
+			
+			&:nth-child(odd){
+				&:before{
+					left: 2%;
+				}
+			}
+			&:nth-child(even){
+				&:before{
+					right: 10%;
+					top: 14.5%;
+				}
+			}
+			
+			.syntaxhighlighter{
+				width: 75%;
+			}
+			
+			figure:not(#showcase){
+				figcaption {
+					margin-left: @gg;
+				}
+			}
+		}
+	}
+	
+	#showcase {
+		.showcase-arrow-previous, .showcase-arrow-next {
+			top: 40%;
+		}
+	}
+}
+
+@media screen and (max-width: 920px) {
+	section {
+		article{
+			figure:not(#showcase){
+				position: relative;
+				width: 100%!important;
+				overflow: hidden;
+				min-width: 788px;
+				padding-top: 10%;
+								
+				img{
+					position: relative;
+					float: right;
+					overflow: hidden;
+					top: -90px;
+					margin-bottom: -10%;
+				}
+			}
+		}
+	}
+}

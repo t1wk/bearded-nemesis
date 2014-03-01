@@ -1,0 +1,283 @@
+/*
+Description: CSS Elements Stack
+Version: 2.0 - Updated with last support
+Author, front-end: Christophe Zlobinski-Furmaniak
+Last edited: 02/04/2014
+*/
+
+// Background
+//-------------------------------------
+.bkg(@method: cover) {
+    background-size: @method; /* Official Syntax */
+}
+
+.sbkg (@width, @height) {
+    background-size: @width @height; /* Official Syntax */
+}
+
+
+//--------------------------------------------------------------
+// Fonts fonctions
+//--------------------------------------------------------------
+.antialiasing {
+	text-rendering: optimizeLegibility;  /* Optimisation de la lisibilité, universel*/
+	-webkit-font-smoothing: subpixel-antialiased;  /* Optimisation de la lisibilité, Webkit, Apple */
+	text-shadow: 0 0 -1px rgba(0,0,0,0.01); /* Anti-aliasing */
+}
+
+.hyphens {
+	/* http://blog.fontdeck.com/post/9037028497/hyphens 
+	-webkit-hyphens: auto;
+    -moz-hyphens: auto; 
+    hyphens: auto; */
+	
+	/* http://speckyboy.com/2013/07/31/designing-readability/ */
+	/* -ms-word-break: break-all;
+	word-break: break-all; */
+ 
+	// Non standard for webkit
+	word-break: break-word;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
+	 
+	-webkit-hyphenate-before: 2;
+	-webkit-hyphenate-after: 3;
+	hyphenate-lines: 3;
+}
+
+// Box shadows
+//-------------------------------------
+	// Box Outer Shadow
+	@bos_x : 0;
+	@bos_y : 0px;
+	@bos_blur: 9px;
+	@bos_size: 2px;
+	@bos_color: fadeout(@w0, 70%);
+	@bos : @bos_x @bos_y @bos_blur @bos_size @bos_color;
+	
+	// Box Outer Outline Shadow
+	@boos_x : 0;
+	@boos_y : 0px;
+	@boos_blur: 0px;
+	@boos_size: 2px;
+	@boos_color: fadeout(@w0, 30%);
+	@boos : @boos_x @boos_y @boos_blur @boos_size @boos_color;
+	
+	// Box Inner Shadow
+	@bis_x : 0;
+	@bis_y : 0;
+	@bis_blur: 0px;
+	@bis_size: 1px;
+	@bis_color: fadeout(@w100, 30%);
+	@bis : @bis_x @bis_y @bis_blur @bis_size @bis_color;
+	
+	
+.bxs {
+	/* Box Shadows */
+	box-shadow: @bis, @boos, @bos; /* Official Syntax */
+}
+
+.bxs_woi {
+	/* Box Shadows */
+	box-shadow: @bos; /* Official Syntax */
+	border: 1px solid fade(@w0, 30%);
+}
+
+.inner_shadow {
+    /* Box Shadows */
+	box-shadow: @bis; /* Official Syntax */
+}
+
+.bx (@string) {
+	box-shadow:         @string;
+}
+
+// Border-radius
+// -------------------------------------
+.br (@radius) {
+  /* Border Radius */
+  border-radius: @radius; /* Official Syntax */
+}
+
+.cbr (@radiusone, @radiustwo, @radiusthree, @radiusfour) {
+  /* Border Radius */
+  border-radius: @radiusone @radiustwo @radiusthree @radiusfour /* Official Syntax */
+}
+
+// Border-image
+// -------------------------------------
+.bi (@border-image, @size) {
+  /* Border Image */
+  -webkit-border-image: @border-image @size;  /* iOS 5- / Android 4.3- / Blackberry 7*/
+  border-image: @border-image @size; /* Official Syntax */
+}
+
+// Gradient
+//-------------------------------------
+.gr(@start, @stop) {
+	/* Gradient */
+    background: -webkit-gradient(linear, left top, left bottom, from(@start), to(@stop)); /* Webkit Safari 6-*/
+    background: -webkit-linear-gradient(@start, @stop); /* Webkit Chrome */
+	background: -o-linear-gradient(top, @start 0%, @stop 100%); /* Opera */
+    background: linear-gradient(center top, @start 0%, @stop 100%); /* Official Syntax */
+	-pie-background: linear-gradient(@start, @stop); /* IE */
+    behavior: url("../_js/pie.htc"); /* IE */
+}
+
+// Opacity
+// ------------------------------------- 
+.op(@opacity) {
+	opacity: @opacity; /* Official Syntax */
+}
+
+// Transition In/out
+// -------------------------------------
+.tr_in(@duration:0.25s, @ease:ease-in) {
+  -webkit-transition: all @duration @ease; /* Webkit */
+  transition: all @duration @ease; /* Official Syntax */
+}
+
+.tr_out(@duration:0.25s, @ease:ease-out) {
+  -webkit-transition: all @duration @ease; /* Webkit */
+  transition: all @duration @ease; /* Official Syntax */
+}
+
+// Animations
+// -------------------------------------
+.animation (@name, @duration, @ease, @delay, @iteration: infinite, @direction: alternate, @fillmode) {
+	-webkit-animation: 	@name @duration @ease @delay @iteration @direction @fillmode;
+	-ms-animation: 		@name @duration @ease @delay @iteration @direction @fillmode;
+	animation: 			@name @duration @ease @delay @iteration @direction @fillmode;
+	.fix;
+}
+
+// ! WARNING ! //
+// Apparently Scale transformation on Webkit only (-webkit-transform: scale(@size);)
+// Seems not to like fixed background after the element (background-position: fixed;)
+
+// Transformation
+// -------------------------------------
+.rotation(@deg){ 
+  -webkit-transform: rotate(@deg); /* Webkit */
+  transform: rotate(@deg); /* Official Syntax */
+}
+
+.skewx(@deg){
+	-webkit-transform:skewX(@deg); /* Webkit */
+    -ms-transform:skewX(@deg); /* IE */
+    transform:skewX(@deg); /* Official Syntax */
+}
+
+.skewY(@deg){
+	-webkit-transform:skewY(@deg); /* Webkit */
+    -ms-transform:skewY(@deg); /* IE */
+    transform:skewY(@deg); /* Official Syntax */
+}
+
+// Columns
+// ------------------------------------- 
+.columns(@colwidth: @18g-2, @colcount: 2, @colgap: @gg) {
+	/* Safari/Chrome*/
+	-webkit-column-width: @colwidth;
+	-webkit-column-count: @colcount;
+	-webkit-column-gap: @colgap;
+	/* Firefox */
+	-moz-column-width: @colwidth;
+	-moz-column-count: @colcount;
+	-moz-column-gap: @colgap;
+	/* Official Syntax */
+	column-width: @colwidth;
+	column-count: @colcount;
+	column-gap: @colgap;
+}
+
+.columns-tablets (@colwidth: @18g-2, @colcount: 2, @colgap: (@gg * 2)) {
+	/* Safari/Chrome*/
+	-webkit-column-width: @colwidth;
+	-webkit-column-count: @colcount;
+	-webkit-column-gap: @colgap;
+	
+	/* Firefox */
+	-moz-column-width: @colwidth;
+	-moz-column-count: @colcount;
+	-moz-column-gap: @colgap;
+    
+	/* Official Syntax */
+	column-width: @colwidth;
+	column-count: @colcount;
+	column-gap: @colgap;  
+}
+
+.one-column (@colcount: 1) {
+	-webkit-column-count: @colcount;
+	-moz-column-count: @colcount;
+	column-count: @colcount;
+}
+
+// Scale
+// -------------------------------------
+.scale(@size){
+    -webkit-transform: translateZ(0);
+	-webkit-transform: scale(@size); /* Safari/Chrome*/
+	-ms-transform: scale(@size); /* IE 9 */
+	transform: scale(@size); /* Official Syntax */
+}
+
+// Perspective
+// -------------------------------------
+.perspective(@perspective){
+	-webkit-perspective: @perspective;
+	perspective: @perspective;
+}
+
+// Image Rendering
+// https://developer.mozilla.org/en-US/docs/CSS/image-rendering
+// -------------------------------------
+.img-rendering {
+	image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering:   -o-crisp-edges;         /* Opera */
+    image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+}
+
+// Fix
+// -------------------------------------
+.fix {
+	-webkit-transform: translateZ(0);
+    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
+}
+
+// Box Model by Paul Irish
+// http://paulirish.com/2012/box-sizing-border-box-ftw/
+// -------------------------------------
+/* apply a natural box layout model to all elements */
+.box-model { 
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box; 
+}
+
+/* and get back to normal */
+.padding-model { 
+    -moz-box-sizing: padding-box;
+    -webkit-box-sizing: padding-box;
+    box-sizing: padding-box; 
+}
+
+// Backface compatibility
+// -------------------------------------
+.backface {
+	-webkit-backface-visibility: hidden;
+	-webkit-transform-style: preserve-3d;
+}
+
+.swipe-anim {
+	transform: translate3d(0%,0,0) scale3d(1,1,1);
+	-ms-transform: translate3d(0%,0,0) scale3d(1,1,1);
+	-moz-transform: translate3d(0%,0,0) scale3d(1,1,1);
+	-webkit-transform: translate3d(0%,0,0) scale3d(1,1,1);
+}

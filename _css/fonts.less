@@ -1,0 +1,213 @@
+/* Font-Face rule
+------------------------------------- 
+font-face {
+    font-family: '';
+    src: url('fontname.eot'); // IE 9
+    src: url('segoeui-webfont.eot#iefix') format('embedded-opentype'), // IE 9- 
+		 url('fontname.svg#FontFamily') format('svg'),  // Webkit
+		 url('fontname.woff') format('woff'), // Modern Browsers 
+         url('segoeui-webfont.ttf') format('truetype'); // Mobile
+	font-weight: normal;
+    font-style: normal;
+}
+
+SVG is placed before WOFF to ensure Chrome PC to use the SVG with anti-aliasing.
+
+
+L: Light
+LI: Light Italics
+M: Medium
+MI: Medium Italics
+BO: Book
+BOI: Book Italics
+SM: Semi Bold
+SMI: Semi Bold Italics
+B: Bold
+BI: Bold Italics
+BL: Black
+BLI: Black Italics
+
+=================================================== */
+
+
+
+/* Font-face
+================================================== */
+
+// Gotham
+//--------------------------------------------------------------
+@font-face {
+    font-family: 'GOTL'; /* Gotham Light */
+    src: url('fonts/gothtf-l.eot');
+    src: url('fonts/gothtf-l#mahtog_lightregular') format('svg'),
+         url('fonts/gothtf-l.woff') format('woff'),
+         url('fonts/gothtf-l.ttf') format('truetype'); 
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'GOTRM'; /* Gotham Rounded Medium */
+    src: url('fonts/gotrhtf-m.eot');
+    src: url('fonts/gotrhtf-m#mathog_rounded_mediumregular') format('svg'),
+         url('fonts/gotrhtf-m.woff') format('woff'),
+         url('fonts/gotrhtf-m.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+// Whitney
+//--------------------------------------------------------------
+@font-face {
+    font-family: 'WITL'; /* Whitney Light */
+    src: url('fonts/whtf-l.eot');
+    src: url('fonts/whtf-l#yentihw_lightregular') format('svg'),
+         url('fonts/whtf-l.woff') format('woff'),
+         url('fonts/whtf-l.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'WITINDB'; /* Whitney Indexed Black Round Md */
+    src: url('fonts/whtf-index-black-rmd.eot');
+    src: url('fonts/whtf-index-black-rmd#yentihw_index_black_round_mRg') format('svg'),
+         url('fonts/whtf-index-black-rmd.woff') format('woff'),
+         url('fonts/whtf-index-black-rmd.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'WITMSC'; /* Whitney Medium SC */
+    src: url('fonts/whtf-m-sc.eot');
+    src: url('fonts/whtf-m-sc#yentihw_medium_scregular') format('svg'),
+         url('fonts/whtf-m-sc.woff') format('woff'),
+         url('fonts/whtf-m-sc.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'WITBO'; /* Whitney Book */
+    src: url('fonts/whtf-bo.eot');
+    src: url('fonts/whtf-bo#yentihw_bookregular') format('svg'),
+         url('fonts/whtf-bo.woff') format('woff'),
+         url('fonts/whtf-bo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'WITM'; /* Whitney Medium */
+    src: url('fonts/whtf-m.eot');
+    src: url('fonts/whtf-m#yentihw_mediumregular') format('svg'),
+         url('fonts/whtf-m.woff') format('woff'),
+         url('fonts/whtf-m.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'WITMI'; /* Whitney Medium Italics */
+    src: url('fonts/whtf-mi.eot');
+    src: url('fonts/whtf-mi#yentihw_mediumregular_italic') format('svg'),
+         url('fonts/whtf-mi.woff') format('woff'),
+         url('fonts/whtf-mi.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'WITSB'; /* Whitney Semi Bold */
+    src: url('fonts/whtf-sb.eot');
+    src: url('fonts/whtf-sb#yentihw_semibold') format('svg'),
+         url('fonts/whtf-sb.woff') format('woff'),
+         url('fonts/whtf-sb.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'WITSBI'; /* Whitney SemiBold Italics */
+    src: url('fonts/whtf-sbi.eot');
+    src: url('fonts/whtf-sbi#yentihw_semibold_italic') format('svg'),
+         url('fonts/whtf-sbi.woff') format('woff'),
+         url('fonts/whtf-sbi.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+// Archer
+//--------------------------------------------------------------
+@font-face {
+    font-family: 'ASB'; /* Archer Semi Bold */
+    src: url('fonts/a-sb.eot');
+    src: url('fonts/a-sb#rehcra_semiboldregular') format('svg'),
+         url('fonts/a-sb.woff') format('woff'),
+         url('fonts/a-sb.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+// Gotham
+//--------------------------------------------------------------
+.gotl { /* Gotham Light */
+    font-family: 'GOTL';
+    .antialiasing;
+}
+
+.gotrm { /* Gotham Rounded Medium */
+    font-family: 'GOTRM';
+    .antialiasing;
+}
+
+// Archer
+//--------------------------------------------------------------
+.asb { /* Archer SemiBold */
+    font-family: 'ASB';
+    .antialiasing;
+}
+
+// Whitney
+//--------------------------------------------------------------
+.witl { /* Whitney Light */
+    font-family: 'WITL';
+    .antialiasing;
+}
+
+.witm { /* Whitney Medium */
+    font-family: 'WITM';
+    .antialiasing;
+}
+
+.witmi { /* Whitney Book Italics */
+    font-family: 'WITMI';
+    .antialiasing;
+}
+
+.witmsc { /* Whitney Medim SC */
+    font-family: 'WITMSC';
+    .antialiasing;
+}
+
+.witbo { /* Whitney Book */
+    font-family: 'WITBO';
+    .antialiasing;
+}
+
+.witsb { /* Whitney SemiBold */
+    font-family: 'WITSB';
+    .antialiasing;
+}
+
+.witsbi { /* Whitney SemiBold  Italics*/
+    font-family: 'WITSBI';
+    .antialiasing;
+}
+
+.witindb { /* Whitney Indexed Black Round Md */
+    font-family: 'WITINDB';
+    .antialiasing;
+}
