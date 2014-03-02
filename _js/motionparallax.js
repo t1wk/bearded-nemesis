@@ -70,9 +70,8 @@ function motionParallax(){
 		totalFrames = totalFrames+1;
 	}
 	
-	// Create each canvas with the right sequence inside
 	for(i = 0, len=arr.length; i < len; i++) {
-				
+	
 		// Define Canvas
 		canvas[i] = document.getElementById(arr[i]);
 		context[i] = canvas[i].getContext('2d');		
@@ -91,9 +90,8 @@ function motionParallax(){
 			$.each( seq, function(){
 				return render(this[currentFrame]); // Rendering
 			});
-			
 		};
-		
+			
 		// Draw Image
 		render = function(img) {
 		  var h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
@@ -117,47 +115,61 @@ function motionParallax(){
 			h = windowHeight;
 		  }
 		  x = -(w - windowWidth) / 2;
-						
+
 			$.each( context, function(){
 				return this.drawImage(img, x, 0, w, h); // Rendering canvas
 			});
 		};
-				
+		
 		// Preload images
 		loadImageSequence = function() {
 		  var file, a, img, num, _a;
 		  img = [];
-		  seq[i] = []; 
-		  
+		  seq[i] = [];
+			  
 		  for (a = _a = seqBeg[i]; seqBeg[i] <= seqEnd[i] ? _a <= seqEnd[i] : _a >= seqEnd[i]; 
 			a = seqBeg[i] <= seqEnd[i] ? ++_a : --_a) {
 		  
+			var h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
+			
 			img = new Image();
 			num = ("0000" + a).slice(-4);
 			file = "" + rootPath + sequencePath + imgPrefix + num + ".jpg";
 			img.src = file;
 			img.frame = a;
-			img.onload = function() {
-			  return loadedFrameCallback(this);
-			};
-			
 			seq[i].push(img);
-		  }
+			
 		  
+			  // Define Window Ratio
+			  windowWidth = $(window).width();
+			  windowHeight = $(window).height();
+			  windowAspectRatio = windowWidth / windowHeight;
+			  
+			  // Define Video Ratio
+			  videoWidth = 1280; // Please define width
+			  videoHeight = 720; // and height
+			  videoAspectRatio = videoWidth / videoHeight;
+			
+			$.each( seq, function(){
+				img = new Image();
+				num = ("0000" + seqBeg[i]).slice(-4);
+				file = "" + rootPath + sequencePath + imgPrefix + num + ".jpg";
+				img.src = file;
+				img.frame = seqBeg[i];
+				img.onload = function() {
+				  return loadedFrameCallback(this); // Rendering canvas
+				};
+			});
+		  }
+
 		  $.each( seq, function(){
 			return this;
 		  });
-		  
 		};
-		
-		var firstFrame = [];
-		firstFrame= seqBeg[i];
 		
 		// Render current image
 		loadedFrameCallback = function(img) {
-		  if (img.frame === 1) {
-			return render(img);
-		  }
+		  return render(img);
 		};
 		
 		// Render images after being loaded
@@ -174,6 +186,8 @@ function motionParallax(){
 		});
 	});
 
+	//return $(window).on('touchmove', renderCurrentFrame[i]);
+		
 	
 	// Resize Functions
 	//=============================================================//	
@@ -189,6 +203,7 @@ function motionParallax(){
 
 		resizeCanvas();
 		//$(window).resize(resizeCanvas);
+		
 }
 
 $(function() {
