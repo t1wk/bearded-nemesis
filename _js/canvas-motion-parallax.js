@@ -68,23 +68,6 @@ function motionParallax(){
 		// Define Canvas
 		canvas.push(document.getElementById(arr[i]));
 		context.push(canvas[i].getContext('2d'));
-		
-		// Render Current Frame
-		renderCurrentFrame[i] = function() {
-		  var offset, currentFrame;
-		  offset = $(window).scrollTop();
-		  currentFrame = seqBeg[i];
-		  seqBeg[i] = Math.round(offset / 10); // Define parallax velocity
-		  
-		  if (seqBeg[i] >= seqEnd[i]) {
-			seqBeg[i] = seqEnd[i] - 1;
-		  }
-		
-			$.each( seq, function(){
-				//console.log(seqBeg[i]);
-				return render(this[currentFrame]); // Rendering
-			});
-		};
 			
 		// Draw Image
 		render = function(img) {
@@ -112,14 +95,14 @@ function motionParallax(){
 		  x = -(w - windowWidth) / 2;
 		  
 			$.each( context, function(){
-				//console.log(this, img); // Il réécrit img 6 fois. Pkoi ?
+				//console.log(context[i], img); // Il réécrit img 6 fois. Pkoi ?
 				//return this.drawImage(img, x, 0, w, h); // Rendering canvas
 			});
 		};
 				
 		// Preload images
 		loadImageSequence = function() {
-		  var file, fileSeq, a, img, num, numSeq, _a, h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
+		  var file, fileSeq, a, img, num, numSeq, sequence, _a, h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
 		  img = [];
 		  seq[i] = []; 
 		  file = [];
@@ -156,7 +139,7 @@ function motionParallax(){
 			img.onload = (function(value){
 			   return function(){
 				   //context[value].drawImage(file[value+1], 0, 0);
-				   context[value].drawImage(img, x, 0, w, h);
+				   context[value].drawImage(img, x, 0, w, h); // Render current image
 			   }
 			})(i);
 
@@ -175,7 +158,75 @@ function motionParallax(){
 		};
 		
 		// Render images after being loaded
-		seq[i] = loadImageSequence()
+		loadImageSequence();
+		
+		// console.log(seq[i]); // Array of each sequence - OK
+		
+		
+		// Render Current Frame
+		renderCurrentFrame = function() {
+			var h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
+		  
+			// Define Window Ratio
+			windowWidth = $(window).width();
+			windowHeight = $(window).height();
+			windowAspectRatio = windowWidth / windowHeight;
+
+			// Define Video Ratio
+			videoWidth = 1280; // Please define width
+			videoHeight = 720; // and height
+			videoAspectRatio = videoWidth / videoHeight;
+
+			// Render properly if ratio is different than expected
+			if (windowAspectRatio > videoAspectRatio) {
+			w = windowWidth;
+			h = windowWidth / videoAspectRatio;
+			} else {
+			w = videoAspectRatio * windowHeight;
+			h = windowHeight;
+			}
+			x = -(w - windowWidth) / 2;
+			
+			for(i = 0, len=seq.length; i < len; i++) {
+				var offset, currentFrame;
+				offset = $(window).scrollTop();
+				currentFrame = seq[i];
+				currentFrame = Math.round(offset / 10); // Define parallax velocity
+				console.log(currentFrame);
+				
+				/* if (currentFrame >= currentFrame[i].length-1) {
+					currentFrame = currentFrame[i].length-1 - 1;
+				  } 
+				// Assign onload handler to each image in array
+				img.onload = (function(value){
+					return function(){
+					   context[value].drawImage(currentFrame[value+1], 0, 0);
+					   //context[value].drawImage(img, x, 0, w, h); // Render current image
+					}
+				})(i); */
+			}
+			
+			for(i = 0, len=seq.length; i < len; i++) {
+			//console.log(i);
+		  
+			  
+			/* // Assign onload handler to each image in array
+			currentFrame = (function(value){
+				return function(){
+				   //context[value].drawImage(file[value+1], 0, 0);
+				   //context[value].drawImage(img, x, 0, w, h); // Render current image
+				}
+			})(i); */
+			  
+			  //console.log(render[currentFrame]);
+			  //return render(seq[i][currentFrame]); // Rendering
+			};
+		
+			/* $.each( seq, function(){
+				//console.log(seqBeg[i]);
+				//return render(this[currentFrame]); // Rendering
+			}); */
+		};
 	}
 	
 	// Scroll Events
@@ -184,12 +235,15 @@ function motionParallax(){
 		// Prevent jittering
 		//window.requestAnimationFrame(renderCurrentFrame[i]);
 
+		//window.requestAnimationFrame(renderCurrentFrame);
+		renderCurrentFrame();
+		
 		// Render
-		$.each( renderCurrentFrame, function(){
+		/* $.each( renderCurrentFrame, function(){
 			//console.log(this);
 			window.requestAnimationFrame(this);
 			return this;
-		});
+		}); */
 	});
 
 	//return $(window).on('touchmove', renderCurrentFrame[i]);
