@@ -68,37 +68,6 @@ function motionParallax(){
 		// Define Canvas
 		canvas.push(document.getElementById(arr[i]));
 		context.push(canvas[i].getContext('2d'));
-			
-		// Draw Image
-		render = function(img) {
-		  
-		  var h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
-		  
-		  // Define Window Ratio
-		  windowWidth = $(window).width();
-		  windowHeight = $(window).height();
-		  windowAspectRatio = windowWidth / windowHeight;
-		  
-		  // Define Video Ratio
-		  videoWidth = 1280; // Please define width
-		  videoHeight = 720; // and height
-		  videoAspectRatio = videoWidth / videoHeight;
-		  
-		  // Render properly if ratio is different than expected
-		  if (windowAspectRatio > videoAspectRatio) {
-			w = windowWidth;
-			h = windowWidth / videoAspectRatio;
-		  } else {
-			w = videoAspectRatio * windowHeight;
-			h = windowHeight;
-		  }
-		  x = -(w - windowWidth) / 2;
-		  
-			$.each( context, function(){
-				//console.log(context[i], img); // Il réécrit img 6 fois. Pkoi ?
-				//return this.drawImage(img, x, 0, w, h); // Rendering canvas
-			});
-		};
 				
 		// Preload images
 		loadImageSequence = function() {
@@ -132,7 +101,8 @@ function motionParallax(){
 			a = seqBeg[i] <= seqEnd[i] ? ++_a : --_a) {
 			
 			img = new Image();
-			num = ("0000" + seqBeg[i]).slice(-4);
+			//num = ("0000" + seqBeg[i]).slice(-4);
+			num = ("0000" + a).slice(-4);
 			file.push("" + rootPath + sequencePath + imgPrefix + num + ".jpg");
 		
 			// Assign onload handler to each image in array
@@ -150,6 +120,67 @@ function motionParallax(){
 			numSeq = ("0000" + a).slice(-4);
 			seq[i].push("" + rootPath + sequencePath + imgPrefix + numSeq + ".jpg");
 		  }
+		
+			// Render Current Frame
+			renderCurrentFrame = function() {			
+				for(i = 0, len=seq.length; i < len; i++) {
+					var offset, currentFrame;
+					offset = $(window).scrollTop();
+		
+					//console.log(currentFrame[i]);
+					currentFrame = Math.round(offset / 10); // Define parallax velocity
+					
+					if (currentFrame >= seqEnd[i]) {
+						currentFrame = seqEnd[i] - 1;
+					  } 
+					
+					/* // Assign onload handler to each image in array
+					img.onload = (function(value){
+						return function(){
+							console.log("context" + [value] + ".drawImage(" + currentFrame[value] + ", 0, 0)");
+						   //context[value].drawImage(currentFrame[value+1], 0, 0);
+						   //context[value].drawImage(img, x, 0, w, h); // Render current image
+						}
+					})(i); */
+					//console.log("render(" + seq[i]+ "[" + currentFrame + "])");
+					return render(seq[i][currentFrame]); // Rendering
+				}
+			};
+			
+			// Draw Image
+			render = function(img) {
+			  
+			  var h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
+			  
+			  // Define Window Ratio
+			  windowWidth = $(window).width();
+			  windowHeight = $(window).height();
+			  windowAspectRatio = windowWidth / windowHeight;
+			  
+			  // Define Video Ratio
+			  videoWidth = 1280; // Please define width
+			  videoHeight = 720; // and height
+			  videoAspectRatio = videoWidth / videoHeight;
+			  
+			  // Render properly if ratio is different than expected
+			  if (windowAspectRatio > videoAspectRatio) {
+				w = windowWidth;
+				h = windowWidth / videoAspectRatio;
+			  } else {
+				w = videoAspectRatio * windowHeight;
+				h = windowHeight;
+			  }
+			  x = -(w - windowWidth) / 2;
+			  
+			  img = new Image();
+			  img.onload = (function(value){
+				   return function(){
+						console.log(this);
+					   context[value].drawImage(img, 0, 0);
+				   }
+			   })(i);
+			  //return context[i].drawImage(img, x, 0, w, h); // Rendering canvas
+			};
 		};
 		
 		// Render current image
@@ -161,72 +192,6 @@ function motionParallax(){
 		loadImageSequence();
 		
 		// console.log(seq[i]); // Array of each sequence - OK
-		
-		
-		// Render Current Frame
-		renderCurrentFrame = function() {
-			var h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
-		  
-			// Define Window Ratio
-			windowWidth = $(window).width();
-			windowHeight = $(window).height();
-			windowAspectRatio = windowWidth / windowHeight;
-
-			// Define Video Ratio
-			videoWidth = 1280; // Please define width
-			videoHeight = 720; // and height
-			videoAspectRatio = videoWidth / videoHeight;
-
-			// Render properly if ratio is different than expected
-			if (windowAspectRatio > videoAspectRatio) {
-			w = windowWidth;
-			h = windowWidth / videoAspectRatio;
-			} else {
-			w = videoAspectRatio * windowHeight;
-			h = windowHeight;
-			}
-			x = -(w - windowWidth) / 2;
-			
-			for(i = 0, len=seq.length; i < len; i++) {
-				var offset, currentFrame;
-				offset = $(window).scrollTop();
-				currentFrame = seq[i];
-				currentFrame = Math.round(offset / 10); // Define parallax velocity
-				console.log(currentFrame);
-				
-				/* if (currentFrame >= currentFrame[i].length-1) {
-					currentFrame = currentFrame[i].length-1 - 1;
-				  } 
-				// Assign onload handler to each image in array
-				img.onload = (function(value){
-					return function(){
-					   context[value].drawImage(currentFrame[value+1], 0, 0);
-					   //context[value].drawImage(img, x, 0, w, h); // Render current image
-					}
-				})(i); */
-			}
-			
-			for(i = 0, len=seq.length; i < len; i++) {
-			//console.log(i);
-		  
-			  
-			/* // Assign onload handler to each image in array
-			currentFrame = (function(value){
-				return function(){
-				   //context[value].drawImage(file[value+1], 0, 0);
-				   //context[value].drawImage(img, x, 0, w, h); // Render current image
-				}
-			})(i); */
-			  
-			  //console.log(render[currentFrame]);
-			  //return render(seq[i][currentFrame]); // Rendering
-			};
-		
-			/* $.each( seq, function(){
-				//console.log(seqBeg[i]);
-				//return render(this[currentFrame]); // Rendering
-			}); */
-		};
 	}
 	
 	// Scroll Events
