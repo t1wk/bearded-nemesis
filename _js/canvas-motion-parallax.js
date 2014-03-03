@@ -61,14 +61,6 @@ function motionParallax(){
 		seqEnd.push($(this).data('sequence-end'));
 	});
 	
-	
-	// Count how many images to load
-	var totalFrames = 0;
-	for(i = 0, len=total_slides; i < len; i++) {
-		totalFrames+= seqEnd[i]-seqBeg[i];
-		totalFrames = totalFrames+1;
-	}
-
 	for(i = 0, len=arr.length; i < len; i++) {
 		
 		console.log("i = " + i); // To test
@@ -127,10 +119,11 @@ function motionParallax(){
 				
 		// Preload images
 		loadImageSequence = function() {
-		  var file, a, img, num, _a, h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
+		  var file, fileSeq, a, img, num, numSeq, _a, h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
 		  img = [];
 		  seq[i] = []; 
 		  file = [];
+		  fileSeq = [];
 		  
 		  // Define Window Ratio
 		  windowWidth = $(window).width();
@@ -156,7 +149,7 @@ function motionParallax(){
 			a = seqBeg[i] <= seqEnd[i] ? ++_a : --_a) {
 			
 			img = new Image();
-			num = ("0000" + a).slice(-4);
+			num = ("0000" + seqBeg[i]).slice(-4);
 			file.push("" + rootPath + sequencePath + imgPrefix + num + ".jpg");
 		
 			// Assign onload handler to each image in array
@@ -169,20 +162,12 @@ function motionParallax(){
 
 			// IMPORTANT - Assign src last for IE
 			img.src = file[i];	
-			seq[i].push(img);
+			
+			// Create sequences
+			numSeq = ("0000" + a).slice(-4);
+			seq[i].push("" + rootPath + sequencePath + imgPrefix + numSeq + ".jpg");
 		  }
-		  
-		  $.each( seq, function(){
-			console.log(this);
-			//return this;
-		  });
-		 // console.log(seq[i]);
-		  
-		  //return seq[i];
 		};
-		
-		var firstFrame = [];
-		firstFrame= seqBeg[i];
 		
 		// Render current image
 		loadedFrameCallback = function(img) {
@@ -190,9 +175,7 @@ function motionParallax(){
 		};
 		
 		// Render images after being loaded
-		//loadImageSequence = loadImageSequence[i];
-		seq[i] = loadImageSequence();
-		//console.log(seq);
+		seq[i] = loadImageSequence()
 	}
 	
 	// Scroll Events
