@@ -40,9 +40,9 @@ function motionParallax(){
 	var total_slides = motion.length;
 	var currentFrame = 1;
 	
-	var arr = [];
 	var canvas = [];
 	var context = [];
+	var arr = [];
 	var seq = [];
 	var seqBeg = [];
 	var seqEnd = [];
@@ -68,42 +68,15 @@ function motionParallax(){
 		totalFrames+= seqEnd[i]-seqBeg[i];
 		totalFrames = totalFrames+1;
 	}
-	
-	var file;
-	file = [];
-		
-	for(i = 0, len=arr.length; i < len; i++) {
-		//var file;
-		var img = new Image();
-		num = ("0000" + seqBeg[i]).slice(-4);
-		file.push("'" + rootPath + sequencePath + imgPrefix + num + ".jpg'");
-		
-		img.onload = (function(value){
-		   return function(){
-			   console.log("context" + [value+1] + ".drawImage(" + "'" + file[value] + "'" + ", 0, 0)");
-			   //context[value].drawImage(file[value+1], 0, 0);
-		   }
-		})(i);
 
-		// IMPORTANT - Assign src last for IE
-		img.src = file[i];
-	}
-	
 	for(i = 0, len=arr.length; i < len; i++) {
-		console.log("i = " + i);
+		
+		console.log("i = " + i); // To test
 		
 		// Define Canvas
-		canvas[i] = document.getElementById(arr[i]);
-		context[i] = canvas[i].getContext('2d');		
+		canvas.push(document.getElementById(arr[i]));
+		context.push(canvas[i].getContext('2d'));
 		
-		//console.log(context[i]);
-			/* context1.drawImage("/motion/_images/1280/motion0001.jpg", 0, 0)
-			context3.drawImage("/motion/_images/1280/motion0241.jpg", 0, 0)
-			context2.drawImage("/motion/_images/1280/motion0154.jpg", 0, 0)
-			context4.drawImage("/motion/_images/1280/motion0331.jpg", 0, 0)
-			context5.drawImage("/motion/_images/1280/motion0391.jpg", 0, 0)
-			context6.drawImage("/motion/_images/1280/motion0503.jpg", 0, 0) */
-			
 		// Render Current Frame
 		renderCurrentFrame[i] = function() {
 		  var offset, currentFrame;
@@ -115,15 +88,15 @@ function motionParallax(){
 			seqBeg[i] = seqEnd[i] - 1;
 		  }
 		
-			/* $.each( seq, function(){
+			$.each( seq, function(){
 				//console.log(seqBeg[i]);
 				return render(this[currentFrame]); // Rendering
-			}); */
-			
+			});
 		};
 			
 		// Draw Image
 		render = function(img) {
+		  
 		  var h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
 		  
 		  // Define Window Ratio
@@ -145,74 +118,65 @@ function motionParallax(){
 			h = windowHeight;
 		  }
 		  x = -(w - windowWidth) / 2;
-			
-			//img = img[i];
-			
-			//console.log(context[i]);
+		  
 			$.each( context, function(){
 				//console.log(this, img); // Il réécrit img 6 fois. Pkoi ?
 				//return this.drawImage(img, x, 0, w, h); // Rendering canvas
 			});
-			
-			
-		  //return context[i].drawImage(img[i], x, 0, w, h); // Rendering canvas
 		};
 				
 		// Preload images
 		loadImageSequence = function() {
-		  var file, a, img, num, _a;
+		  var file, a, img, num, _a, h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
 		  img = [];
 		  seq[i] = []; 
+		  file = [];
+		  
+		  // Define Window Ratio
+		  windowWidth = $(window).width();
+		  windowHeight = $(window).height();
+		  windowAspectRatio = windowWidth / windowHeight;
+		  
+		  // Define Video Ratio
+		  videoWidth = 1280; // Please define width
+		  videoHeight = 720; // and height
+		  videoAspectRatio = videoWidth / videoHeight;
+		  
+		  // Render properly if ratio is different than expected
+		  if (windowAspectRatio > videoAspectRatio) {
+			w = windowWidth;
+			h = windowWidth / videoAspectRatio;
+		  } else {
+			w = videoAspectRatio * windowHeight;
+			h = windowHeight;
+		  }
+		  x = -(w - windowWidth) / 2;
 		  
 		  for (a = _a = seqBeg[i]; seqBeg[i] <= seqEnd[i] ? _a <= seqEnd[i] : _a >= seqEnd[i]; 
 			a = seqBeg[i] <= seqEnd[i] ? ++_a : --_a) {
 			
 			img = new Image();
 			num = ("0000" + a).slice(-4);
-			//console.log(num);
-			file = "" + rootPath + sequencePath + imgPrefix + num + ".jpg";
-			img.src = file;
-			img.frame = a;
-			img.onload = function() {
-			  //console.log(this);
-			  //return loadedFrameCallback(this);
-			};	
-			
-			//img.onload = "" + rootPath + sequencePath + imgPrefix + seqBeg[i] + ".jpg";
+			file.push("" + rootPath + sequencePath + imgPrefix + num + ".jpg");
+		
+			// Assign onload handler to each image in array
+			img.onload = (function(value){
+			   return function(){
+				   //context[value].drawImage(file[value+1], 0, 0);
+				   context[value].drawImage(img, x, 0, w, h);
+			   }
+			})(i);
+
+			// IMPORTANT - Assign src last for IE
+			img.src = file[i];	
 			seq[i].push(img);
-			
-			var h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
-		  
-			  // Define Window Ratio
-			  windowWidth = $(window).width();
-			  windowHeight = $(window).height();
-			  windowAspectRatio = windowWidth / windowHeight;
-			  
-			  // Define Video Ratio
-			  videoWidth = 1280; // Please define width
-			  videoHeight = 720; // and height
-			  videoAspectRatio = videoWidth / videoHeight;
-			
-				// Assign onload handler to each image in array
-			
-			/* $.each( seq, function(){
-				img = new Image();
-				num = ("0000" + seqBeg[i]).slice(-4);
-				file = "" + rootPath + sequencePath + imgPrefix + num + ".jpg";
-				img.src = file;
-				img.frame = seqBeg[i];
-				//console.log("ok " + seqBeg[i], "image is " + img);				  
-				img.onload = function() {
-				  return loadedFrameCallback(this); // Rendering canvas
-				};
-			}); */
 		  }
 		  
-		  //console.log(seq[i]);
 		  $.each( seq, function(){
-			//console.log(this);
-			return this;
+			console.log(this);
+			//return this;
 		  });
+		 // console.log(seq[i]);
 		  
 		  //return seq[i];
 		};
