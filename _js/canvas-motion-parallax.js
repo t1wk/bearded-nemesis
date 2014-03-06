@@ -123,8 +123,30 @@ function motionParallax(){
 			// Render Current Frame
 			renderCurrentFrame = function() {			
 				for(i = 0, len=seq.length; i < len; i++) {
-					var offset, currentFrame;
+					var offset, currentFrame, numCurrentFrame, fileCurrentFrame;
 					offset = $(window).scrollTop();
+		
+					var h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
+			  
+					// Define Window Ratio
+					  windowWidth = $(window).width();
+					  windowHeight = $(window).height();
+					  windowAspectRatio = windowWidth / windowHeight;
+					  
+					  // Define Video Ratio
+					  videoWidth = 1280; // Please define width
+					  videoHeight = 720; // and height
+					  videoAspectRatio = videoWidth / videoHeight;
+					  
+					  // Render properly if ratio is different than expected
+					  if (windowAspectRatio > videoAspectRatio) {
+						w = windowWidth;
+						h = windowWidth / videoAspectRatio;
+					  } else {
+						w = videoAspectRatio * windowHeight;
+						h = windowHeight;
+					  }
+					  x = -(w - windowWidth) / 2;
 		
 					//console.log(currentFrame[i]);
 					currentFrame = Math.round(offset / 10); // Define parallax velocity
@@ -133,17 +155,28 @@ function motionParallax(){
 						currentFrame = seqEnd[i] - 1;
 					  } 
 					
-					/* // Assign onload handler to each image in array
-					img.onload = (function(value){
+					
+					// Assign onload handler to each image in array
+					test = (function(value){
 						return function(){
-							console.log("context" + [value] + ".drawImage(" + currentFrame[value] + ", 0, 0)");
-						   //context[value].drawImage(currentFrame[value+1], 0, 0);
-						   //context[value].drawImage(img, x, 0, w, h); // Render current image
+							numCurrentFrame = ("0000" + currentFrame).slice(-4);
+							fileCurrentFrame= "" + rootPath + sequencePath + imgPrefix + numCurrentFrame + ".jpg"
+							image = new Image();
+							image.src = fileCurrentFrame;
+							//console.log("render["+ i + "](" + fileCurrentFrame + ")");
+							//console.log("render["+ i+ "](" + seq[i] + "[currentFrame]");
+						    //console.log(seq[i]);
+							//return render[i](fileCurrentFrame); // Rendering							
+							console.log(context[value], fileCurrentFrame);
+							//return context[value].drawImage(image, x, 0, w, h); // Rendering canvas
 						}
-					})(i); */
+					})(i);
+					
+					test();
 					//console.log("render(" + seq[i]+ "[" + currentFrame + "])");
-					console.log(seq[i]); // retourne le tableau 1 uniquement
-					return render[i](seq[i][currentFrame]); // Rendering
+					
+					//console.log(seq[i]); // retourne le tableau 1 uniquement
+					//return render[i](seq[i][currentFrame]); // Rendering
 				}
 			};
 			
@@ -175,7 +208,7 @@ function motionParallax(){
 			  // Create a new Image to display native element to give to context
 			  img_converted = new Image();
 			  img_converted.src = img;
-			  console.log(img_converted);
+			  //console.log(img_converted);
 			  
 			  /* img = new Image();
 			  img.onload = (function(value){
@@ -185,7 +218,7 @@ function motionParallax(){
 				   }
 			   })(i); */
 			  
-			  return context[i].drawImage(img_converted, x, 0, w, h); // Rendering canvas
+			  //return context[i].drawImage(img_converted, x, 0, w, h); // Rendering canvas
 			};
 		};
 		
