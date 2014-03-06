@@ -101,7 +101,6 @@ function motionParallax(){
 			a = seqBeg[i] <= seqEnd[i] ? ++_a : --_a) {
 			
 			img = new Image();
-			//num = ("0000" + seqBeg[i]).slice(-4);
 			num = ("0000" + a).slice(-4);
 			file.push("" + rootPath + sequencePath + imgPrefix + num + ".jpg");
 		
@@ -120,7 +119,7 @@ function motionParallax(){
 			numSeq = ("0000" + a).slice(-4);
 			seq[i].push("" + rootPath + sequencePath + imgPrefix + numSeq + ".jpg");
 		  }
-		
+			
 			// Render Current Frame
 			renderCurrentFrame = function() {			
 				for(i = 0, len=seq.length; i < len; i++) {
@@ -143,12 +142,13 @@ function motionParallax(){
 						}
 					})(i); */
 					//console.log("render(" + seq[i]+ "[" + currentFrame + "])");
-					return render(seq[i][currentFrame]); // Rendering
+					console.log(seq[i]); // retourne le tableau 1 uniquement
+					return render[i](seq[i][currentFrame]); // Rendering
 				}
 			};
 			
 			// Draw Image
-			render = function(img) {
+			render[i] = function(img) {
 			  
 			  var h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
 			  
@@ -172,14 +172,20 @@ function motionParallax(){
 			  }
 			  x = -(w - windowWidth) / 2;
 			  
-			  img = new Image();
+			  // Create a new Image to display native element to give to context
+			  img_converted = new Image();
+			  img_converted.src = img;
+			  console.log(img_converted);
+			  
+			  /* img = new Image();
 			  img.onload = (function(value){
 				   return function(){
 						console.log(this);
 					   context[value].drawImage(img, 0, 0);
 				   }
-			   })(i);
-			  //return context[i].drawImage(img, x, 0, w, h); // Rendering canvas
+			   })(i); */
+			  
+			  return context[i].drawImage(img_converted, x, 0, w, h); // Rendering canvas
 			};
 		};
 		
