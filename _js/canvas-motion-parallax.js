@@ -37,17 +37,16 @@ function motionParallax(){
 
 	// Create variables
 	var motion = $('canvas');
+	var articles = $("article");
 	var total_slides = motion.length;
 	var currentFrame = 1;
-	
-	var canvas = [], canvas_pos = [], context = [], arr = [], seq = [], seqBeg = [], seqEnd = [], img = [];
+	var canvas = [], context = [], arr = [], seq = [], seqBeg = [], seqEnd = [], img = [];
 	
 	// Create arrays with IDs and number of images of each canvas
 	motion.each(function(){
 		arr.push($(this).attr('id'));
 		seqBeg.push($(this).data('sequence-beg'));
 		seqEnd.push($(this).data('sequence-end'));
-		canvas_pos.push($(this).offset().top);
 	});
 	
 	for(i = 0, len=arr.length; i < len; i++) {
@@ -90,7 +89,8 @@ function motionParallax(){
 
 				img = new Image();
 				num = ("0000" + a).slice(-4);
-				seq[i].push("" + rootPath + sequencePath + imgPrefix + num + ".jpg");
+				file = "" + rootPath + sequencePath + imgPrefix + num + ".jpg";
+				//seq[i].push("" + rootPath + sequencePath + imgPrefix + num + ".jpg");
 
 				// Assign onload handler to each image in array
 				img.onload = (function(value){
@@ -100,33 +100,62 @@ function motionParallax(){
 				})(i);
 
 				// IMPORTANT - Assign src last for IE
-				img.src = seq[i][1];
+				// img.src = seq[i][1]; // Will render and load the 1st one but has to load every images after
+				img.src = file; // Will load every files
+				console.log(file);
 			}
 			
+		
 			// Render Current Frame
 			renderCurrentFrame = function() {			
-				for(i = 0, len=seq.length; i < len; i++) {
-					var offset, currentFrame, numCurrentFrame, fileCurrentFrame;
+				
+				// Is the canvas visible ?
+				for(i = 0, len=articles.length; i < len; i++) {
+					
+					var offset, currentFrame, numCurrentFrame, fileCurrentFrame, velocity;
 					offset = $(window).scrollTop();
-					currentFrame = Math.round(seqBeg[i] + (offset * (seq[i].length / 900))); // Define parallax velocity
+					article = $(articles[i]);
+										
+					// To test if the article is seen into the viewport
+					/* if(article.isOnScreen()){
+						console.log("ok " + i);
+					} else {
+						console.log("nok " + i);
+					}; */
 					
-					if (currentFrame >= seqEnd[i]) {
-						currentFrame = seqEnd[i] - 1;
+					// Count how many images to load
+					var totalFrames = 0;
+					totalFrames+= seqEnd[i]-seqBeg[i];
+					totalFrames = totalFrames+1;
+														
+					// Define parallax velocity for all
+					// Velocity is smoothed if you don't have the same amount of frames by sequence 
+					velocity = Math.round(((offset * 3) / totalFrames)); 
+
+					// Article is into the ViewPort?
+					// Great, render the sequence
+					if(article.isOnScreen()){						
+						render = (function(value){
+							return function(){
+							
+								// Increase currentFrame but stop if you reach the end of the sequence
+								currentFrame = (seqBeg[i] + velocity) >= seqEnd[i] ? seqEnd[i] : (seqBeg[i] + velocity);
+								
+								// Make the CurrentFrame became a file src
+								numCurrentFrame = ("0000" + currentFrame).slice(-4);
+								fileCurrentFrame= "" + rootPath + sequencePath + imgPrefix + numCurrentFrame + ".jpg"
+								
+								image = new Image();
+								image.src = fileCurrentFrame;
+								
+								// And draw it into the right canvas
+								return context[value].drawImage(image, x, 0, w, h);
+							}
+						})(i);
+					
+						render();
 					}
-					
-					// Assign handler to each image in array
-					render = (function(value){
-						return function(){
-							numCurrentFrame = ("0000" + currentFrame).slice(-4);
-							fileCurrentFrame= "" + rootPath + sequencePath + imgPrefix + numCurrentFrame + ".jpg"
-							image = new Image();
-							image.src = fileCurrentFrame;
-							return context[value].drawImage(image, x, 0, w, h); // Rendering canvas
-						}
-					})(i);
-					
-					render();
-				}
+				};
 			};
 		};
 		
@@ -137,7 +166,7 @@ function motionParallax(){
 	// Scroll Events
 	//=============================================================//
 	$(window).scroll(function() {
-		//window.requestAnimationFrame(renderCurrentFrame); // Prevent jittering
+		window.requestAnimationFrame(renderCurrentFrame); // Prevent jittering
 		renderCurrentFrame();
 	});
 
