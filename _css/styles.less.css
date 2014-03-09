@@ -88,6 +88,20 @@ header {
 }
 
 /* -------------------------------------
+	Loader
+------------------------------------- */
+#progress {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	padding-top: 25%;
+	font-size: 5em;
+	text-align: center;
+	background: fade(#fff, 90%);
+	z-index: 1000;
+}
+
+/* -------------------------------------
 	Canvas - General styles
 ------------------------------------- */
 section{

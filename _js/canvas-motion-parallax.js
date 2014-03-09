@@ -15,7 +15,7 @@
 //=============================================================//
 // Define Path for images
 //=============================================================//
-var rootPath, sequencePath, imgPrefix;
+	var rootPath, sequencePath, imgPrefix;
 
 	// Define root
 	if (document.location.hostname === "localhost") {
@@ -29,12 +29,9 @@ var rootPath, sequencePath, imgPrefix;
 
 	// Define prefix of image sequence
 	imgPrefix = "motion";
-
+	
 function motionParallax(){
-	//=============================================================//
-	// Parallax Canvas
-	//=============================================================//
-
+	
 	// Create variables
 	var motion = $('canvas');
 	var articles = $("article");
@@ -49,6 +46,50 @@ function motionParallax(){
 		seqEnd.push($(this).data('sequence-end'));
 	});
 	
+	//=============================================================//
+	//	Px Loader
+	//=============================================================//
+	
+	// Delay each image to prevent caching 
+	var $progress = $('#progress').text('0 / 100'), 
+    loader = new PxLoader();
+	
+	// Count how many images has to be preloaded
+	totalFramestoLoad = 0;
+	for(i = 1, len=motion.length; i < len; i++) {
+		totalFramestoLoad+= seqEnd[i]-seqBeg[i];
+		totalFramestoLoad = totalFramestoLoad+1;
+	};
+	
+	// create a PxLoaderImage
+	for(var i=0; i < totalFramestoLoad; i++) { 
+		num = ("0000" + i).slice(-4);
+		var pxImage = new PxLoaderImage("" + rootPath + sequencePath + imgPrefix + num + ".jpg"); 
+		pxImage.imageNumber = i + 1;
+		loader.add(pxImage);
+	}			
+	
+	// Callback that runs every time an image loads 
+	loader.addProgressListener(function(e) { 
+		 
+		// log which image completed 
+		//console.log('Image ' + e.resource.imageNumber + ' Loaded\r');
+		
+		// the event provides stats on the number of completed items 
+		$progress.text(Math.round((e.completedCount / totalFramestoLoad) * 100) + ' / ' + ((e.totalCount / totalFramestoLoad) * 100));
+		
+		// Hide the loader
+		if(e.completedCount === e.totalCount) {
+			//console.log("Completed");
+			$("#progress").addClass('none');
+		}
+	});
+
+	loader.start();
+	
+	//=============================================================//
+	// Parallax Canvas
+	//=============================================================//
 	for(i = 0, len=arr.length; i < len; i++) {
 	
 		// Define Canvas
@@ -57,7 +98,8 @@ function motionParallax(){
 				
 		// Preload images
 		loadImageSequence = function() {
-			var file, fileSeq, a, img, num, numSeq, sequence, _a, h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
+			var file, fileSeq, a, img, num, numSeq, sequence, _a, 
+			h, videoAspectRatio, videoHeight, videoWidth, w, windowAspectRatio, windowHeight, windowWidth, x;
 			img = [];
 			seq[i] = []; 
 			file = [];
@@ -82,27 +124,29 @@ function motionParallax(){
 				h = windowHeight;
 			}
 			x = -(w - windowWidth) / 2;
-
+			
+			numFirst = ("0000" + seqBeg[i]).slice(-4);
+			var fileFirst = "" + rootPath + sequencePath + imgPrefix + numFirst + ".jpg";
+			
 			// Draw Image
 			for (a = _a = seqBeg[i]; seqBeg[i] <= seqEnd[i] ? _a <= seqEnd[i] : _a >= seqEnd[i]; 
 			a = seqBeg[i] <= seqEnd[i] ? ++_a : --_a) {
 
 				img = new Image();
+				img.frame = ("0000" + seqBeg[i]).slice(-4);
 				num = ("0000" + a).slice(-4);
-				file = "" + rootPath + sequencePath + imgPrefix + num + ".jpg";
-				//seq[i].push("" + rootPath + sequencePath + imgPrefix + num + ".jpg");
-
+				file = "" + rootPath + sequencePath + imgPrefix + num + ".jpg";				
+				
 				// Assign onload handler to each image in array
 				img.onload = (function(value){
 				   return function(){
-					   context[value].drawImage(img, x, 0, w, h); // Render current image
+						context[value].drawImage(img, x, 0, w, h); // Render current image
+						img.src = fileFirst; // Will the first frame
 				   }
 				})(i);
 
 				// IMPORTANT - Assign src last for IE
-				// img.src = seq[i][1]; // Will render and load the 1st one but has to load every images after
 				img.src = file; // Will load every files
-				console.log(file);
 			}
 			
 		
