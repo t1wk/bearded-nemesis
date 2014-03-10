@@ -113,26 +113,27 @@ section{
   position: relative;
   height: 800px;
   width: 120%;
-  z-index: 1;
   .perspective(150px);
 
 
 	canvas {
 	  position: relative;
-	  width: 100%;
+	  width: 120%;
 	  height: 100%;
 	  .box-model;
+	}
 	
-		&:nth-child(odd){
-			left: 11%;
-			-webkit-transform: rotateY(2deg);
-			transform: rotateY(2deg);
-		}
-		
-		&:nth-child(even){
-			left: -20%;
-			-webkit-transform: rotateY(-2deg);
-			transform: rotateY(-2deg);
-		}
+	&:nth-child(odd) canvas{
+		left: 11%;
+		-webkit-transform: rotateY(2deg);
+		transform: rotateY(2deg);
+		z-index: 1;
+	}
+	
+	&:nth-child(even) canvas{
+		left: -20%;
+		-webkit-transform: rotateY(-2deg);
+		transform: rotateY(-2deg);
+		z-index: 2;
 	}
 }
