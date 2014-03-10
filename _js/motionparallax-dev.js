@@ -156,6 +156,7 @@ function motionParallax(){
 				img.frame = ("0000" + seqBeg[i]).slice(-4);
 				num = ("0000" + a).slice(-4);
 				file = "" + rootPath + sequencePath + imgPrefix + num + ".jpg";				
+				//seq[i].push("" + rootPath + sequencePath + imgPrefix + num + ".jpg");
 				
 				// Assign onload handler to each image in array
 				img.onload = (function(value){
@@ -168,7 +169,6 @@ function motionParallax(){
 				// IMPORTANT - Assign src last for IE
 				img.src = file; // Will load every files
 			}
-			
 		
 			// Render Current Frame
 			renderCurrentFrame = function() {			
@@ -207,13 +207,16 @@ function motionParallax(){
 					if(article.isOnScreen()){
 						
 						el = $(canvas[i]);
-						animation = offset / 500;
+						animation = (offset / 500) >= 0 ? (offset / 500) : (offset / 500);
 						leftPos = animation * 5;
 						size = offset * .5;
-						yDegree = 2;
 						yPos = 11;
 						yPosEven = 20;
+						yDegree = 2;
 						
+						//rotate(Xdeg) = matrix(cos(X), sin(X), -sin(X), cos(X), 0, 0);
+						//rotateyDegree = matrix(cos(yDegree), sin(yDegree), 0, 0, 0, 0);
+						console.log(article.css('transform', 'rotate3d'));
 						if(isEven(i) === true) {
 							
 							article.css({
@@ -221,16 +224,17 @@ function motionParallax(){
 								//'height' : 80 + '%' <= 120 + '%' ? 80 + size + '%' : 120 + '%',
 								//'width' : 120 + '%' <= 150 + '%' ? 120 + size + '%' : 150 + '%'
 							});
-							
+
 							el.css({
-								'transform': 'rotateY(' + yDegree >= -yDegree + 'deg)' ? 'rotateY(' + (yDegree - animation) + 'deg)' : 'rotateY(' + -yDegree + 'deg)',
+								//'transform': 'rotateY(' + (yDegree >= 0) + 'deg)' ? 'rotateY(' + (yDegree - animation) + 'deg)' : 'rotateY(0deg)',
+								'transform': (yDegree >= 0) ? 'rotateY(' + (yDegree - animation) + 'deg)' : 'rotateY(0deg)',
 								'left' : yPos + '%' >= -yPos + '%' ? (yPos - leftPos) + '%' : -yPos + '%'
 							});
 						} else {
-							el.css({
-								'transform': 'rotateY(' + -yDegree <= yDegree + 'deg)' ? 'rotateY(' + (-yDegree + animation) + 'deg)' : 'rotateY(' + yDegree + 'deg)',
+							/* el.css({
+								'transform': 'rotateY(' + (-yDegree <= 0) + 'deg)' ? 'rotateY(' + (-yDegree + animation) + 'deg)' : 'rotateY(' + 0 + 'deg)',
 								'left' : -yPosEven + '%' <= yPosEven + '%' ? (-yPosEven + leftPos) + '%' : yPosEven + '%'
-							});
+							}); */
 						}
 						
 						render = (function(value){

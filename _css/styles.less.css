@@ -12,7 +12,7 @@ Description:
 */
 
 /* **1. Html5doctor.com Reset Stylesheet + HTML5 Normalization  */
-@import "reset.css";
+@import (less) "reset.css";
 
 /* -------------------------------------
 //	LESS PreCSSProcessor
@@ -125,15 +125,17 @@ section{
 	
 	&:nth-child(odd) canvas{
 		left: 11%;
-		-webkit-transform: rotateY(2deg);
-		transform: rotateY(2deg);
+		/* -webkit-transform: rotateY(2deg); */
+		/* transform: rotateY(2deg); */
+		transform: rotate3d(0, 1, 0, 2deg);
 		z-index: 1;
 	}
 	
 	&:nth-child(even) canvas{
 		left: -20%;
-		-webkit-transform: rotateY(-2deg);
-		transform: rotateY(-2deg);
+		/* -webkit-transform: rotateY(-2deg); */
+		/* transform: rotateY(-2deg); */
+		transform: rotate3d(0, 1, 0, -2deg);
 		z-index: 2;
 	}
 }

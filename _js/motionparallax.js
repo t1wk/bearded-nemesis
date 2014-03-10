@@ -176,9 +176,11 @@ function motionParallax(){
 					// Velocity is smoothed if you don't have the same amount of frames by sequence 
 					velocity = Math.round(((offset * 3) / totalFrames)); 
 
+					
 					// Article is into the ViewPort?
 					// Great, render the sequence
-					if(article.isOnScreen()){						
+					if(article.isOnScreen()){
+						
 						render = (function(value){
 							return function(){
 							
@@ -237,3 +239,4 @@ function motionParallax(){
 $(function() {
 	motionParallax();
 });
+
