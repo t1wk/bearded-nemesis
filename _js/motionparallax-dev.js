@@ -32,6 +32,39 @@ function getRotationDegrees(obj) {
     return angle;
 }
 
+function rotationMatrix() {
+	// http://en.wikipedia.org/wiki/Rotation_matrix
+	// https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function
+	
+	// Matrix3d for rotationY(2deg) is rendering the following
+	// matrix3d(0.939693, 0, -0.34202, 0, 0, 1, 0, 0, 0.34202, 0, 0.939693, 0, 0, 0, 0, 1)
+	// matrix3d = (Math.cos(rotateY * deg2rad), 0, Math.sin(-rotateY * deg2rad), 0, 0, 1, 0, 0, Math.sin(rotateY * deg2rad), 0, Math.cos(rotateY * deg2rad), 0, 0, 0, 0, 1);
+	
+	var yDegree = 2;
+	var deg2rad = Math.PI/180; // Convert degrees to radians
+		
+		// for Ydegree = 2,
+		var y1 = Math.cos(yDegree * deg2rad); 	// y1 = 0.9993908270190958
+		var y2 = Math.sin(-yDegree * deg2rad); 	// y2 = -0.03489949670250097
+		var y3 = Math.sin(yDegree * deg2rad); 	// y3 = 0.03489949670250097
+		var y4 = Math.cos(yDegree * deg2rad); 	// y4 = 0.9993908270190958
+		
+		// for Ydegree = 0,
+		var ytest1 = Math.cos(0 * deg2rad); 	// y1 = 0
+		var ytest2 = Math.sin(-0 * deg2rad); 	// y2 = 1
+		var ytest3 = Math.sin(0 * deg2rad); 	// y3 = 0
+		var ytest4 = Math.cos(0 * deg2rad); 	// y4 = 1
+		
+		// for Ydegree = -2,
+		var ytt1 = Math.cos(-2 * deg2rad); 		// y1 = 0.9993908270190958
+		var ytt2 = Math.sin(2 * deg2rad); 		// y2 = 0.03489949670250097
+		var ytt3 = Math.sin(-2 * deg2rad); 		// y3 = -0.03489949670250097
+		var ytt4 = Math.cos(-2 * deg2rad); 		// y4 = 0.9993908270190958
+
+	
+	//var el = document.getElementById("parallax_first");	
+}
+
 //=============================================================//
 // Define Path for images
 //=============================================================//
@@ -51,6 +84,8 @@ function getRotationDegrees(obj) {
 	imgPrefix = "motion";
 	
 function motionParallax(){
+	
+	
 	
 	// Create variables
 	var motion = $('canvas');
@@ -201,22 +236,45 @@ function motionParallax(){
 					function isEven(num) {
 					  return isNaN(num) && num !== false && num !== true ? false : num % 2 == 0;
 					}
+								 
+					
+					
 					
 					// Article is into the ViewPort?
 					// Great, render the sequence
 					if(article.isOnScreen()){
 						
-						el = $(canvas[i]);
+						// Play with the rotation of the canvas
+						rotationMatrix();
+						var el = $(canvas[i]);
+						elDOM = el[0]; // returns a HTML DOM Object instead of a jQuery object
+						
+						//console.log(el, el2, article);
+						
+						var st = window.getComputedStyle(el2, null);
+						var tr = st.getPropertyValue("-webkit-transform") ||
+							 st.getPropertyValue("-moz-transform") ||
+							 st.getPropertyValue("-ms-transform") ||
+							 st.getPropertyValue("-o-transform") ||
+							 st.getPropertyValue("transform") ||
+							 "FAIL";
+
+						
+						// Retrieve Matrix for rotateY
+						var values = tr.split('(')[1].split(')')[0].split(',');
+						var y1 = values[0];
+						var y2 = values[1];
+						var y3 = values[8];
+						var y4 = values[10];
+						
+						console.log(a, b, c, d);
+						
 						animation = (offset / 500) >= 0 ? (offset / 500) : (offset / 500);
 						leftPos = animation * 5;
 						size = offset * .5;
 						yPos = 11;
 						yPosEven = 20;
-						yDegree = 2;
 						
-						//rotate(Xdeg) = matrix(cos(X), sin(X), -sin(X), cos(X), 0, 0);
-						//rotateyDegree = matrix(cos(yDegree), sin(yDegree), 0, 0, 0, 0);
-						console.log(article.css('transform', 'rotate3d'));
 						if(isEven(i) === true) {
 							
 							article.css({
@@ -224,10 +282,11 @@ function motionParallax(){
 								//'height' : 80 + '%' <= 120 + '%' ? 80 + size + '%' : 120 + '%',
 								//'width' : 120 + '%' <= 150 + '%' ? 120 + size + '%' : 150 + '%'
 							});
-
+							
+							// matrix3d(0.939693, 0, -0.34202, 0, 0, 1, 0, 0, 0.34202, 0, 0.939693, 0, 0, 0, 0, 1)
 							el.css({
 								//'transform': 'rotateY(' + (yDegree >= 0) + 'deg)' ? 'rotateY(' + (yDegree - animation) + 'deg)' : 'rotateY(0deg)',
-								'transform': (yDegree >= 0) ? 'rotateY(' + (yDegree - animation) + 'deg)' : 'rotateY(0deg)',
+								'transform': (y4 <= 0) ? 'matrix3d('+ y1 + ', 0, ' + y2 + ', 0, 0, 1, 0, 0,' + y3 + ', 0, ' + y4 + '0, 0, 0, 0, 1)'	: 'rotateY(0deg)',
 								'left' : yPos + '%' >= -yPos + '%' ? (yPos - leftPos) + '%' : -yPos + '%'
 							});
 						} else {
