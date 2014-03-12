@@ -10,67 +10,26 @@
 @based-on: Be Moved by Sony (http://discover.store.sony.com/be-moved/)
 @based-url: https://github.com/ballistiq/parallax-demo
 ==============================================================
-
-//=============================================================//
-// Notes for motion images
-//=============================================================//
-
-	Sequences need:
-	- to be extracted every 5 frames
-	- to differ from +/- 20 images
-	- to have at least 100 images
-	
-	Images need:
-	- to have the same ratio (1280*800 || 704 * 396 - Sony be Moved standard)
-	- to weight tops 50k
-
-//=============================================================//
-// Video credits
-//=============================================================//
-	http://vimeo.com/16310661
-	http://vimeo.com/16385618
-	http://vimeo.com/16411252
-	http://vimeo.com/31476977
-	http://vimeo.com/53889629
-	http://vimeo.com/78177043
-	http://vimeo.com/79388454
-	http://vimeo.com/54611029
 */
 
+//=============================================================//
+// Useful function to deal with rotation degrees
+//=============================================================//
+function getRotationDegrees(obj) {
+    var matrix = obj.css("-webkit-transform") ||
+    obj.css("-moz-transform")    ||
+    obj.css("-ms-transform")     ||
+    obj.css("-o-transform")      ||
+    obj.css("transform");
+    if(matrix !== 'none') {
+        var values = matrix.split('(')[1].split(')')[0].split(',');
+        var a = values[0];
+        var b = values[1];
+        var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+    } else { var angle = 0; }
 
-
-
-function rotationMatrix() {
-	// http://en.wikipedia.org/wiki/Rotation_matrix
-	// https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function
-	
-	// Matrix3d for rotationY(2deg) is rendering the following
-	// matrix3d(0.939693, 0, -0.34202, 0, 0, 1, 0, 0, 0.34202, 0, 0.939693, 0, 0, 0, 0, 1)
-	// matrix3d = (Math.cos(rotateY * deg2rad), 0, Math.sin(-rotateY * deg2rad), 0, 0, 1, 0, 0, Math.sin(rotateY * deg2rad), 0, Math.cos(rotateY * deg2rad), 0, 0, 0, 0, 1);
-	
-	var yDegree = 2;
-	var deg2rad = Math.PI/180; // Convert degrees to radians
-		
-		// for Ydegree = 2,
-		var y1 = Math.cos(yDegree * deg2rad); 	// y1 = 0.9993908270190958
-		var y2 = Math.sin(-yDegree * deg2rad); 	// y2 = -0.03489949670250097
-		var y3 = Math.sin(yDegree * deg2rad); 	// y3 = 0.03489949670250097
-		var y4 = Math.cos(yDegree * deg2rad); 	// y4 = 0.9993908270190958
-		
-		// for Ydegree = 0,
-		var ytest1 = Math.cos(0 * deg2rad); 	// y1 = 0
-		var ytest2 = Math.sin(-0 * deg2rad); 	// y2 = 1
-		var ytest3 = Math.sin(0 * deg2rad); 	// y3 = 0
-		var ytest4 = Math.cos(0 * deg2rad); 	// y4 = 1
-		
-		// for Ydegree = -2,
-		var ytt1 = Math.cos(-2 * deg2rad); 		// y1 = 0.9993908270190958
-		var ytt2 = Math.sin(2 * deg2rad); 		// y2 = 0.03489949670250097
-		var ytt3 = Math.sin(-2 * deg2rad); 		// y3 = -0.03489949670250097
-		var ytt4 = Math.cos(-2 * deg2rad); 		// y4 = 0.9993908270190958
-
-	
-	//var el = document.getElementById("parallax_first");	
+    if(angle < 0) angle +=360;
+    return angle;
 }
 
 //=============================================================//
@@ -92,8 +51,6 @@ function rotationMatrix() {
 	imgPrefix = "motion";
 	
 function motionParallax(){
-	
-	
 	
 	// Create variables
 	var motion = $('canvas');
@@ -199,7 +156,6 @@ function motionParallax(){
 				img.frame = ("0000" + seqBeg[i]).slice(-4);
 				num = ("0000" + a).slice(-4);
 				file = "" + rootPath + sequencePath + imgPrefix + num + ".jpg";				
-				//seq[i].push("" + rootPath + sequencePath + imgPrefix + num + ".jpg");
 				
 				// Assign onload handler to each image in array
 				img.onload = (function(value){
@@ -212,6 +168,7 @@ function motionParallax(){
 				// IMPORTANT - Assign src last for IE
 				img.src = file; // Will load every files
 			}
+			
 		
 			// Render Current Frame
 			renderCurrentFrame = function() {			
@@ -244,42 +201,16 @@ function motionParallax(){
 					function isEven(num) {
 					  return isNaN(num) && num !== false && num !== true ? false : num % 2 == 0;
 					}
-								 
-					
-					
 					
 					// Article is into the ViewPort?
 					// Great, render the sequence
 					if(article.isOnScreen()){
 						
-						// Play with the rotation of the canvas
-						rotationMatrix();
-						var el = $(canvas[i]);
-						elDOM = el[0]; // returns a HTML DOM Object instead of a jQuery object
-						
-						//console.log(el, el2, article);
-						
-						var st = window.getComputedStyle(el2, null);
-						var tr = st.getPropertyValue("-webkit-transform") ||
-							 st.getPropertyValue("-moz-transform") ||
-							 st.getPropertyValue("-ms-transform") ||
-							 st.getPropertyValue("-o-transform") ||
-							 st.getPropertyValue("transform") ||
-							 "FAIL";
-
-						
-						// Retrieve Matrix for rotateY
-						var values = tr.split('(')[1].split(')')[0].split(',');
-						var y1 = values[0];
-						var y2 = values[1];
-						var y3 = values[8];
-						var y4 = values[10];
-						
-						console.log(a, b, c, d);
-						
-						animation = (offset / 500) >= 0 ? (offset / 500) : (offset / 500);
+						el = $(canvas[i]);
+						animation = offset / 500;
 						leftPos = animation * 5;
 						size = offset * .5;
+						yDegree = 2;
 						yPos = 11;
 						yPosEven = 20;
 						
@@ -291,17 +222,15 @@ function motionParallax(){
 								//'width' : 120 + '%' <= 150 + '%' ? 120 + size + '%' : 150 + '%'
 							});
 							
-							// matrix3d(0.939693, 0, -0.34202, 0, 0, 1, 0, 0, 0.34202, 0, 0.939693, 0, 0, 0, 0, 1)
 							el.css({
-								//'transform': 'rotateY(' + (yDegree >= 0) + 'deg)' ? 'rotateY(' + (yDegree - animation) + 'deg)' : 'rotateY(0deg)',
-								'transform': (y4 <= 0) ? 'matrix3d('+ y1 + ', 0, ' + y2 + ', 0, 0, 1, 0, 0,' + y3 + ', 0, ' + y4 + '0, 0, 0, 0, 1)'	: 'rotateY(0deg)',
+								'transform': 'rotateY(' + yDegree >= -yDegree + 'deg)' ? 'rotateY(' + (yDegree - animation) + 'deg)' : 'rotateY(' + -yDegree + 'deg)',
 								'left' : yPos + '%' >= -yPos + '%' ? (yPos - leftPos) + '%' : -yPos + '%'
 							});
 						} else {
-							/* el.css({
-								'transform': 'rotateY(' + (-yDegree <= 0) + 'deg)' ? 'rotateY(' + (-yDegree + animation) + 'deg)' : 'rotateY(' + 0 + 'deg)',
+							el.css({
+								'transform': 'rotateY(' + -yDegree <= yDegree + 'deg)' ? 'rotateY(' + (-yDegree + animation) + 'deg)' : 'rotateY(' + yDegree + 'deg)',
 								'left' : -yPosEven + '%' <= yPosEven + '%' ? (-yPosEven + leftPos) + '%' : yPosEven + '%'
-							}); */
+							});
 						}
 						
 						render = (function(value){
