@@ -38,14 +38,8 @@
 */
 
 
-var yDegree = 2;
-	var deg2rad = Math.PI/180; // Convert degrees to radians
+var deg2rad = Math.PI/180; // Convert degrees to radians	
 		
-		// for Ydegree = 2,
-		var y1 = Math.cos(yDegree * deg2rad); 	// y1 = 0.9993908270190958
-		var y2 = Math.sin(-yDegree * deg2rad); 	// y2 = -0.03489949670250097
-		var y3 = Math.sin(yDegree * deg2rad); 	// y3 = 0.03489949670250097
-		var y4 = Math.cos(yDegree * deg2rad); 	// y4 = 0.9993908270190958
 
 function rotationMatrix() {
 	// http://en.wikipedia.org/wiki/Rotation_matrix
@@ -55,6 +49,13 @@ function rotationMatrix() {
 	// matrix3d(0.939693, 0, -0.34202, 0, 0, 1, 0, 0, 0.34202, 0, 0.939693, 0, 0, 0, 0, 1)
 	// matrix3d = (Math.cos(rotateY * deg2rad), 0, Math.sin(-rotateY * deg2rad), 0, 0, 1, 0, 0, Math.sin(rotateY * deg2rad), 0, Math.cos(rotateY * deg2rad), 0, 0, 0, 0, 1);
 	
+	var yDegree = 2;
+		
+		// for Ydegree = 2,
+		var y1 = Math.cos(yDegree * deg2rad); 	// y1 = 0.9993908270190958
+		var y2 = Math.sin(-yDegree * deg2rad); 	// y2 = -0.03489949670250097
+		var y3 = Math.sin(yDegree * deg2rad); 	// y3 = 0.03489949670250097
+		var y4 = Math.cos(yDegree * deg2rad); 	// y4 = 0.9993908270190958
 	
 		
 		// for Ydegree = 0,
@@ -242,18 +243,22 @@ function motionParallax(){
 					// Define if the number is an even or not
 					function isEven(num) {
 					  return isNaN(num) && num !== false && num !== true ? false : num % 2 == 0;
-					}
+					}		
 					
 					// Article is into the ViewPort?
 					// Great, render the sequence
 					if(article.isOnScreen()){
 						
 						// Play with the rotation of the canvas
-						rotationMatrix();
+						// rotationMatrix();
 						
 						// Define the element
 						var el = $(canvas[i]);
 						el2 = el[0]; // returns a HTML DOM Object instead of a jQuery object
+						yPos = 11;
+						yPosEven = 20;
+						yDegree = 2;
+						
 						
 						// Retrieve Matrix for rotateY
 						var st = window.getComputedStyle(el2, null);
@@ -264,16 +269,17 @@ function motionParallax(){
 							 st.getPropertyValue("transform") ||
 							 "FAIL";
 						
+						
 						// Get Matrix values
 						var values = tr.split('(')[1].split(')')[0].split(',');
+						//console.log(values);
 						
 						// Split the values we need for rotateY
-						var y1 = values[0];
-						var y2 = values[1];
-						var y3 = values[8];
-						var y4 = values[10];
-						
-						console.log (y1, y2, y3, y4);
+						// And render them as numbers
+						var y1 = parseFloat(values[0]); 	// y1 = 0.9993908270190958
+						var y2 = parseFloat(values[2]); 	// y2 = -0.03489949670250097
+						var y3 = parseFloat(values[8]);		// y3 = 0.03489949670250097
+						var y4 = parseFloat(values[10]);	// y4 = 0.9993908270190958
 						
 						// Define the animation
 						animation = (offset / 500);
@@ -283,39 +289,45 @@ function motionParallax(){
 						// Define position and values
 						yPos = 11;
 						yPosEven = 20;
+						yDegree = 2;
 						
-						_y1 = y1 + Math.cos(animation * deg2rad);
-						_y2 = -y2 + Math.sin(-animation * deg2rad);
-						_y3 = y3 + Math.sin(animation * deg2rad);
-						_y4 = y4 + Math.cos(animation * deg2rad);
+						_y1 = Math.cos(yDegree + animation);
+						_y2 = Math.sin(-(yDegree + animation));
+						_y3 = Math.sin(yDegree + animation);
+						_y4 = Math.cos(yDegree + animation);
+					
+						// for Ydegree = 0,
+						var ytest1 = Math.cos(0 * deg2rad); 	// y1 = 0
+						var ytest2 = Math.sin(-0 * deg2rad); 	// y2 = 1
+						var ytest3 = Math.sin(0 * deg2rad); 	// y3 = 0
+						var ytest4 = Math.cos(0 * deg2rad); 	// y4 = 1
 						
-						if(isEven(i) === true) {
-							
-							if(y4 < 1) {
-								console.log("true", _y1, _y2, _y3, _y4);
-								console.log('matrix3d('+ (y1 + _y1) + ', 0, ' + (y2 + _y2) + ', 0, 0, 1, 0, 0,' + (y3 + _y3) + ', 0, ' + (y4 + _y4) + '0, 0, 0, 0, 1)')
-							} else {
-								console.log("false");
-							}
-							
-							article.css({
-								//'top': + size
-								//'height' : 80 + '%' <= 120 + '%' ? 80 + size + '%' : 120 + '%',
-								//'width' : 120 + '%' <= 150 + '%' ? 120 + size + '%' : 150 + '%'
-							});
-							
-							// matrix3d(0.939693, 0, -0.34202, 0, 0, 1, 0, 0, 0.34202, 0, 0.939693, 0, 0, 0, 0, 1)
+						// for Ydegree = -2,
+						var ytt1 = Math.cos(-2 * deg2rad); 		// y1 = 0.9993908270190958
+						var ytt2 = Math.sin(2 * deg2rad); 		// y2 = 0.03489949670250097
+						var ytt3 = Math.sin(-2 * deg2rad); 		// y3 = -0.03489949670250097
+						var ytt4 = Math.cos(-2 * deg2rad); 		// y4 = 0.9993908270190958 */
+						
+						if (i % 2 === 0) {
+							yDegree = 2;
 							el.css({
-								//'transform': 'rotateY(' + (yDegree >= 0) + 'deg)' ? 'rotateY(' + (yDegree - animation) + 'deg)' : 'rotateY(0deg)',
-								'transform': (y4 < 1) ? 'matrix3d('+ (y1 + _y1) + ', 0, ' + (y2 + _y2) + ', 0, 0, 1, 0, 0,' + (y3 + _y3) + ', 0, ' + (y4 + _y4) + '0, 0, 0, 0, 1)'	: 'rotateY(0deg)',
+								//'transform': 'rotateY(' + yDegree <= -2 + 'deg)' ? 'rotateY(' + (yDegree - animation) + 'deg)' : 'rotateY(0deg)',
+								'transform': (y3 === 0) ? 'rotateY(' + (yDegree - animation) + 'deg)' : 'rotateY(0deg)',
 								'left' : yPos + '%' >= -yPos + '%' ? (yPos - leftPos) + '%' : -yPos + '%'
 							});
-						} else {
+							
+						}else {
+							//console.log("impair", i, "y3 = " + y3);
+						}
+							
+							// matrix3d(0.939693, 0, -0.34202, 0, 0, 1, 0, 0, 0.34202, 0, 0.939693, 0, 0, 0, 0, 1)
+							
+						
 							/* el.css({
 								'transform': 'rotateY(' + (-yDegree <= 0) + 'deg)' ? 'rotateY(' + (-yDegree + animation) + 'deg)' : 'rotateY(' + 0 + 'deg)',
 								'left' : -yPosEven + '%' <= yPosEven + '%' ? (-yPosEven + leftPos) + '%' : yPosEven + '%'
 							}); */
-						}
+						
 						
 						render = (function(value){
 							return function(){
@@ -336,6 +348,8 @@ function motionParallax(){
 						})(i);
 					
 						render();
+					}else{
+						yDegree = 2;
 					}
 				};
 			};
