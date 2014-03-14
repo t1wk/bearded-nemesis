@@ -73,10 +73,6 @@ function elParallax(article, offset, animation){
 	}else {
 		nav.removeClass("active");
 	}
-	
-	if(article.isOnScreen()){
-		// Do something, dunno what yet
-	}
 }
 
 function motionParallax(){
@@ -208,14 +204,6 @@ function motionParallax(){
 					offset = $(window).scrollTop();
 					article = $(articles[i]);
 
-					
-					// To test if the article is seen into the viewport
-					/* if(article.isOnScreen()){
-						console.log("ok " + i);
-					} else {
-						console.log("nok " + i);
-					}; */
-					
 					// Count how many images to load
 					var totalFrames = 0;
 					totalFrames+= seqEnd[i]-seqBeg[i];
@@ -224,8 +212,7 @@ function motionParallax(){
 					// Define parallax velocity for all
 					// Velocity is smoothed if you don't have the same amount of frames by sequence 
 					// velocity = Math.round(((offset * 3) / totalFrames)); // For about 100 images/sequence
-					velocity = Math.round(((offset * 12) / totalFrames)); // For about 200 images/sequence
-
+					velocity = Math.round(((offset * 7.5) / totalFrames)); // For about 200 images/sequence
 					
 					// Define if the number is an even or not
 					function isEven(num) {
@@ -247,9 +234,6 @@ function motionParallax(){
 					// Great, render the sequence
 					if(article.isOnScreen()){
 						
-						// Play with the rotation of the canvas
-						// rotationMatrix();
-						
 						// Define the element
 						var el = $(canvas[i]);
 						el2 = el[0]; // returns a HTML DOM Object instead of a jQuery object
@@ -263,7 +247,6 @@ function motionParallax(){
 							 st.getPropertyValue("transform") ||
 							 "FAIL";
 						
-						
 						// Get Matrix values
 						var values = tr.split('(')[1].split(')')[0].split(',');
 												
@@ -274,6 +257,7 @@ function motionParallax(){
 						var y3 = parseFloat(values[8]);		// y3 = 0.03489949670250097
 						var y4 = parseFloat(values[10]);	// y4 = 0.9993908270190958
 						
+						// Play with the rotation of the canvas
 						// Rotate differently if the element is even or not
 						if (isEven(i)) {
 							yDegree = 2;
@@ -320,13 +304,18 @@ function motionParallax(){
 							'top': (-top + animation) +'%' 
 						});
 						
-						// And play with the perspective to give a parallax effect
+						// And play with the perspective and top to give a parallax effect
 						perspective = article.css('perspective');
 						perspective = perspective.split("px");
 						perspective = parseInt(perspective[0]);
 						
+						topArticle = article.css('top');
+						topArticle = topArticle.split("px");
+						topArticle = parseInt(topArticle[0]);
+						
 						article.css({
-							'perspective': perspective <= 280 ? Math.round(perspective + (animation / articles.length)) + 'px' : 280 + 'px'
+							'perspective': perspective <= 280 ? Math.round(perspective + (animation / articles.length)) + 'px' : 280 + 'px',
+							'top' : topArticle <= 200 ? Math.round(topArticle + animation) + 'px' : Math.round(200 - animation * 2) + 'px'
 						});
 					}else{
 						yDegree = 2;

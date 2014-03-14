@@ -155,10 +155,6 @@ section{
 	}
 }
 
-article:hover{
-
-	
-}
 
 section:hover > article {
 	.op(.3);
