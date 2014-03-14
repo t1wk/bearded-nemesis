@@ -1,0 +1,53 @@
+//--------------------------------------------------------------
+// Gradients
+// Used for menus, elements
+//--------------------------------------------------------------
+
+// Global variables for gradients
+@general_deg: 135deg; // general angle
+
+// Glass effect on Menu, first tree elements, CTA
+.gr_glass {
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjAuNiIvPgogICAgPHN0b3Agb2Zmc2V0PSI0NyUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMC40MiIvPgogICAgPHN0b3Agb2Zmc2V0PSI1MSUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPHN0b3Agb2Zmc2V0PSI4MiUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMC45MiIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
+    background: -moz-linear-gradient(@general_deg,  fade(@w100, 60%) 0%, fade(@w100, 0%) 47%, fade(@w100, 42%) 47%, fade(@w100, 0%) 48%, fade(@w100, 82%) 39%, fade(@w100, 66%) 49%, fade(@w100, 80%) 72%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,fade(@w100, 60%)), color-stop(47%,fade(@w100, 0%)), color-stop(47%,fade(@w100, 42%)), color-stop(48%,fade(@w100, 0%)), color-stop(39%,fade(@w100, 82%)), color-stop(49%,fade(@w100, 66%)), color-stop(72%,fade(@w100, 80%))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(@general_deg,  fade(@w100, 60%) 0%,fade(@w100, 0%) 47%,fade(@w100, 42%) 47%,fade(@w100, 0%) 48%,fade(@w100, 82%) 39%, fade(@w100, 66%) 49%, fade(@w100, 80%) 72%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(@general_deg,  fade(@w100, 60%) 0%,fade(@w100, 0%) 47%,fade(@w100, 42%) 47%,fade(@w100, 0%) 48%,fade(@w100, 82%) 39%, fade(@w100, 66%) 49%, fade(@w100, 80%) 72%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(@general_deg,  fade(@w100, 60%) 0%,fade(@w100, 0%) 47%,fade(@w100, 42%) 47%,fade(@w100, 0%) 48%,fade(@w100, 82%) 39%, fade(@w100, 66%) 49%, fade(@w100, 80%) 72%); /* IE10+ */
+    background: linear-gradient(135deg,  fade(@w100, 60%) 0%,fade(@w100, 0%) 47%,fade(@w100, 42%) 47%,fade(@w100, 0%) 48%,fade(@w100, 82%) 39%, fade(@w100, 66%) 49%, fade(@w100, 80%) 72%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#99ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+    .op(0.15);
+}
+
+// Box Inner Shadow
+@bis_x : 0;
+@bis_y : 0;
+@bis_blur: 0px;
+@bis_size: 1px;
+@bis_color: fade(@w100, 18%);
+@bis : inset @bis_x @bis_y @bis_blur @bis_size @bis_color;
+
+// Inner shadow on buttons, and elements
+.inner_shadow {
+    /* Box Inner Shadows */
+    -webkit-box-shadow: @bis; /* Safari/Chrome*/
+    -moz-box-shadow: @bis; /* Firefox */
+	box-shadow: @bis; /* Official Syntax */
+}
+
+// Embossed on buttons
+.embossed {
+    /* Box Shadows */
+    -webkit-box-shadow: @bis, inset 0 1px 0 fade(@w100, 50%), inset 0 -1px 0 fade(@w0, 25%), inset 0 -2px 0 fade(@w100, 20%), 1px 0 0 fade(@w0, 10%);
+    -moz-box-shadow: @bis, inset 0 1px 0 fade(@w100, 50%), inset 0 -1px 0 fade(@w0, 25%), inset 0 -2px 0 fade(@w100, 20%), 1px 0 0 fade(@w0, 10%);
+    box-shadow: @bis, inset 0 1px 0 fade(@w100, 50%), inset 0 -1px 0 fade(@w0, 25%), inset 0 -2px 0 fade(@w100, 20%), 1px 0 0 fade(@w0, 10%);
+}
+
+// Embossed on elements, images especially
+.elements-embossed {
+    /* Shadow */
+    -webkit-box-shadow: 1px 1px 0px fade(@w_warm, 30%), inset 1px 1px 2px fade(@b_warm, 30%), inset -1px -1px 2px fade(@b_warm, 30%);  /* Webkit */
+    -moz-box-shadow: 1px 1px 0px fade(@w_warm, 30%), inset 1px 1px 2px fade(@b_warm, 30%), inset -1px -1px 2px fade(@b_warm, 30%);  /* Gecko */
+    box-shadow: 1px 1px 0px fade(@w_warm, 30%), inset 1px 1px 2px fade(@b_warm, 30%), inset -1px -1px 2px fade(@b_warm, 30%);  /* Universel */
+}

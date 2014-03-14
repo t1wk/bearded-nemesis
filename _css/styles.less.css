@@ -21,6 +21,7 @@ Description:
 @import "elements"; /* LESS Elements */
 @import "grid"; /* Grid rules */
 @import "main_colors"; /* Main colors and neutrals */
+@import "gradients"; /* Gradients and shadows effects */
 @import "fonts"; /* Fonts and typography style */
 
 /* -------------------------------------
@@ -75,16 +76,34 @@ nav {
 	position: fixed;
 	width: 100%;
 	height: 60px;
-	background-color: black;
 	z-index: 999;
+	
+
+	&.active{
+		background-color: black;
+		-webkit-transition: background .25s ease-in; /* Webkit */
+		transition: background .25s ease-in; /* Official Syntax */
+	}
 }
 
 header {
 	position: absolute;
 	width: 100%;
-	height: 100%;
-	background-color: grey;
+	height: 800px;
+	background: url('../_images/header.jpg') 0 0 no-repeat;
 	z-index: 998;
+	.bkg;
+
+	&:before{
+		content: "";
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		background: url('../_images/slash.png') 0 0 repeat fade(@b_warm, 50%);
+		.op(.3);
+	}
 }
 
 /* -------------------------------------
@@ -106,6 +125,7 @@ header {
 ------------------------------------- */
 section{
 	position: absolute;
+	width: 100%;
 	top: 800px;
 }
 
@@ -113,29 +133,62 @@ section{
   position: relative;
   height: 800px;
   width: 120%;
+  overflow:hidden;
   .perspective(150px);
 
-
-	canvas {
+  	canvas {
 	  position: relative;
 	  width: 120%;
-	  height: 100%;
-	  .box-model;
+	  height: 120%;
+	  top: -15%;
+	  .box-model;	
 	}
 	
 	&:nth-child(odd) canvas{
-		left: 11%;
-		/* -webkit-transform: rotateY(2deg); */
-		/* transform: rotateY(2deg); */
+		left: -20%;
 		transform: rotate3d(0, 1, 0, 2deg);
-		z-index: 1;
 	}
 	
 	&:nth-child(even) canvas{
 		left: -20%;
-		/* -webkit-transform: rotateY(-2deg); */
-		/* transform: rotateY(-2deg); */
 		transform: rotate3d(0, 1, 0, -2deg);
-		z-index: 2;
+	}
+}
+
+article:hover{
+
+	
+}
+
+section:hover > article {
+	.op(.3);
+	.elements-embossed;
+	
+	&:before{
+		content: "";
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		background: url('../_images/slash.png') 0 0 repeat fade(@b_warm, 50%);
+		.op(.8);
+	}
+	
+	canvas {
+		z-index: -1;
+	}
+}
+
+section:hover > article:hover {
+	.op(1);
+	.inner_shadow;
+	
+	&:before{
+		display: none;
+	}
+	
+	canvas {
+		z-index: 1;
 	}
 }
