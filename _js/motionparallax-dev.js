@@ -44,7 +44,8 @@
 
 	// Define root
 	if (document.location.hostname === "localhost") {
-	  rootPath = "/git/bearded-nemesis";
+	  // rootPath = "/git/bearded-nemesis"; // for home
+	  rootPath = "/git/motion"; // for school
 	} else {
 	  rootPath = "";
 	}
@@ -101,7 +102,7 @@ function motionParallax(){
 	
 	// Count how many images has to be preloaded
 	totalFramestoLoad = 0;
-	for(i = 1, len=motion.length; i < len; i++) {
+	for(i = 1; i < motion.length; i++) {
 		totalFramestoLoad+= seqEnd[i]-seqBeg[i];
 		totalFramestoLoad = totalFramestoLoad+1;
 	};
@@ -135,7 +136,7 @@ function motionParallax(){
 	//=============================================================//
 	// Parallax Canvas
 	//=============================================================//
-	for(i = 0, len=arr.length; i < len; i++) {
+	for(i = 0; i < arr.length; i++) {
 	
 		// Define Canvas
 		canvas.push(document.getElementById(arr[i]));
@@ -198,7 +199,7 @@ function motionParallax(){
 		
 			// Render Current Frame
 			renderCurrentFrame = function() {			
-				for(i = 0, len=articles.length; i < len; i++) {
+				for(i = 0; i < articles.length; i++) {
 					
 					var offset, currentFrame, numCurrentFrame, fileCurrentFrame, velocity;
 					offset = $(window).scrollTop();
@@ -315,10 +316,14 @@ function motionParallax(){
 						
 						article.css({
 							'perspective': perspective <= 280 ? Math.round(perspective + (animation / articles.length)) + 'px' : 280 + 'px',
-							'top' : topArticle <= 200 ? Math.round(topArticle + animation) + 'px' : Math.round(200 - animation * 2) + 'px'
+							'top' : topArticle <= 150 ? Math.round(topArticle + animation) + 'px' : Math.round(topArticle - (animation * 3)) + 'px'
 						});
+						
 					}else{
-						yDegree = 2;
+						// Reset values
+						//yDegree = 2;
+						topArticle = 0;
+						article.css('top', topArticle);
 					}
 				};
 			};
